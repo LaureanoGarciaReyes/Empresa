@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.demo.mapper.TallerMapper">
+ 
+    <insert id='crear' parameterType='com.strappsconsulting.taller.model.NuevoTaller'>
+        INSERT INTO Taller(idTaller, nombre, numeroDeHoras, certificacion) 
+        VALUES(#{idTaller,jdbcType=STRING}, #{nombre,jdbcType=VARCHAR}, #{numeroDeHoras,jdbcType=NUMBER})
+    </insert>
+ 
+    <update id='update' parameterType='org.example.model.Taller'>
+        UPDATE Taller 
+        SET
+        idTaller = #{idTaller,jdbcType=string},
+        nombre= #{nombre,jdbcType=VARCHAR},
+        numeroDeHoras= #{numeroDeHoras,jdbcType=NUMBER}
+        certificacion= #{certificacion,jdbcType=STRING},       
+        
+    </update>
+ 
+ 	<select id='todosLosTalleresExistentes' resultMap='TallerList'>
+        SELECT * FROM Taller
+    </select>
+    
+    <delete id='delete' parameterType='int'>
+        DELETE FROM Taller WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+    
+    <select id='filtraLosTalleres' resultMap='TalleresList'>
+        SELECT * FROM Taller
+    </select>
+    
+</mapper>

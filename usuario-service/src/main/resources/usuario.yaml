@@ -1,0 +1,1310 @@
+openapi: 3.0.0 
+
+info:
+  version: 1.0.0 
+  title: Proyecto STRAPPS COMMUNITY Entidad Usuario
+  description: APIS de la entidad Usuario para STRAPPS COMMUNITY 
+
+  
+servers: 
+  - url: www.strappsconsulting.com
+    description: pagina de strapps
+
+
+components: 
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            usuario: Permisos para partes especificas de la api
+            instructor: Permisos para partes especificas de la api
+            administrador: Todos los permisos
+  
+  responses:
+    400Error:
+      description: Solicitud incorrecta
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: Descripcion del error
+                example: 'Peticion no valida, favor de validar su informacion'
+    401Error:
+      description: 'No autorizado'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: Descripcion del error
+                example: 'Es necesario autenticar para obtener la respuesta solicitada.'      
+
+    404Error:
+      description: 'Recurso no encontrado'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: 'Descripcion del error'
+                example: 'El servidor no pudo encontrar el contenido solicitado'
+
+    500Error:
+      description: 'Error interno de servidor'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: 'Descripcion del error'
+                example: 'Oppps, no se pudo procesar'
+  schemas: 
+    Taller:
+      type: object
+      properties:
+        idGrupo:
+          type: integer
+          example: 123 456
+   
+    nuevoUsuario:
+      type: object
+      properties:
+        nombre:
+          type: string
+          example: Antonio
+          description: Nombre del usuario
+        apellidos:
+          type: string
+          example: Rosales Hernandez
+          description: Apellidos del usuario  
+        matricula:
+          type: string
+          example: N24232121
+          description: Matricula del usuario      
+        correo: 
+          type: string
+          format: email
+          example: strappsconsulting@gmail.com
+          description: Correo del usuario
+        bloqueado: 
+          type: boolean
+          example: false
+          description: Usuario bloqueado
+        idGrupos:
+         type: array
+         description: Lista de Id grupos
+         items:
+           type: integer
+           example: 1
+           
+    respuestaNuevoUsuario:       
+      type: object
+      properties:
+        mensaje:
+          type: string
+          example: Se guardo correctamente el usuario
+          description: Mensaje de respuesta de la petición exitosa
+    
+    EditaUsuario:
+      type: object
+      properties:
+        idusuario:
+          type: integer
+          example: 1
+          description: Id del usuario
+        nombre:
+          type: string
+          example: Antonio
+          description: Nombre del usuario
+        apellidos:
+          type: string
+          example: Rosales Hernandez
+          description: Apellidos del usuario  
+        matricula:
+          type: string
+          example: N24232121
+          description: Matricula del usuario      
+        correo: 
+          type: string
+          format: email
+          example: strappsconsulting@gmail.com
+          description: Correo del usuario
+        bloqueado: 
+          type: boolean
+          example: false
+          description: Usuario bloqueado
+        idGrupos:
+         type: array
+         description: Lista de Id grupos
+         items:
+           type: integer
+           example: 1
+ 
+    respuestaEditaUsuario:
+       type: object
+       properties:
+        mensaje:
+          type: string
+          example: Se actulizo correctamente el usuario
+          description: Mensaje de respuesta de la peticion exitosa
+          
+    respuestaEliminaUsuario:      
+       type: object
+       properties:
+        mensaje:
+          type: string
+          example: Se elimino correctamente el usuario
+          description: Mensaje de respuesta correcta  
+          
+
+    respuestaFiltroUsuarios:           
+       type: object
+       properties:
+          nombre:
+            type: string
+            example: Antonio
+            description: Nombre del usuario
+          apellidos:
+            type: string
+            example: Rosales Hernandez
+            description: Apellidos del usuario  
+          matricula:
+            type: string
+            example: N24232121
+            description: Matrícula del usuario      
+          correo: 
+            type: string
+            format: email
+            example: strappsconsulting@gmail.com
+            description: Correo del usuario
+          bloqueado: 
+            type: boolean
+            example: false
+            description: Usuario bloqueado
+          idGrupos:
+            type: array
+            description: Lista de Id grupos
+            items:
+              type: integer
+              example: 1 
+
+
+    respuestaObtenerPerfil:
+       type: object
+       properties:
+          nombre:
+            type: string
+            example: Pedro Mendez Perez
+            description: Nombre del estudiante
+          matricula:
+            type: string
+            example: 454345543
+            description: Numero de matrícula
+          correo:
+            type: string
+            example: Pedro95@gmail.com
+            description: Correo electrónico del estudiante
+          telefono:
+            type: string
+            example: +52224890498
+            description: Número teléfono del estudiante
+
+    respuestaTallerEstudiante:
+       type: array
+       items:
+         type: object
+         properties:
+          idtaller:
+            type: integer
+            example: 1
+            description: Id de taller
+          taller: 
+            type: string
+            example: SCRUM MASTER
+            description: Nombre del taller
+    
+    #instructor      
+
+    nuevoInstructor:
+      type: object
+      properties:
+        nombre:
+          type: string
+          example: Antonio
+          description: Nombre del instructor
+        apellidos:
+          type: string
+          example: Rosales Hernandez
+          description: Apellidos del instructor    
+        password:
+          type: string
+          example: 1797038423
+          description: Contraseña del instructor       
+        correo: 
+          type: string
+          format: email
+          example: strappsconsulting@gmail.com
+          description: Correo del instructor
+        bloqueado: 
+          type: boolean
+          example: false
+          description: Usuario bloqueado
+    
+    respuestaNuevoInstructor:
+      type: object
+      properties:
+        idInstructor:
+          type: integer
+          example: 1
+          description: Id del instructor
+        mensaje:
+          type: string
+          example: Se guardo correctamente el instructor
+          description: Mensaje de respuesta correcta
+    
+    EditaInstructor:
+      type: object
+      properties:
+        idInstructor:
+          type: integer
+          example: 1
+          description: Id del instructor
+        nombre:
+          type: string
+          example: Antonio
+          description: Nombre del instructor
+        apellidos:
+          type: string
+          example: Rosales Hernandez
+          description: Apellidos del instructor
+        password:
+          type: string
+          example: 17970384
+          description: Contraseña del instructor       
+        correo: 
+          type: string
+          format: email
+          example: strappsconsulting@gmail.com
+          description: Correo del instructor
+        bloqueado: 
+          type: boolean
+          example: false
+          description: Instructor bloqueado
+          
+    respuestaEditaInstructor:
+      type: object
+      properties:
+        mensaje:
+          type: string
+          example: Se actulizo correctamente el instrcutor
+          description: Mensaje de respuesta correcta
+    
+    respuestaObtieneInstructores:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+          description: Id del instructor
+        nombre:
+          type: string
+          example: "Juan Perez Ortega"
+          description: Nombre del instructor
+            
+    respuestaEliminaInstructor:
+      type: object
+      properties:
+        mensaje:
+          type: string
+          example: Se elimino correctamente el instructor
+          description: Mensaje de respuesta correcta        
+            
+    respuestaFiltro:
+      type: object
+      properties:
+        idInstructor:
+          type: integer
+          example: 1
+          description: Id del instructor
+        nombre:
+          type: string
+          example: Antonio
+          description: Nombre del instructor
+        apellidos:
+          type: string
+          example: Rosales Hernandez
+          description: Apellidos del instructor  
+        password:
+          type: string
+          example: N24232121
+          description: Contraseña del instructor      
+        correo: 
+          type: string
+          format: email
+          example: strappsconsulting@gmail.com
+          description: Correo del instructor
+        bloqueado: 
+          type: boolean
+          example: false
+          description: Instructor bloqueado        
+      
+  requestBodies: 
+       nuevoUsuario:
+        content:
+         application/json:
+          schema:
+            $ref: '#/components/schemas/nuevoUsuario'
+        description: "Nuevo Usuario"
+        required: true
+
+       EditaUsuario:
+        content:
+         application/json:
+          schema:
+            $ref: '#/components/schemas/EditaUsuario'
+        description: "Edita un Usuario"
+        required: true
+        
+      #Instructor     
+       nuevoInstructor:
+        content:
+         application/json:
+          schema:
+            $ref: '#/components/schemas/nuevoInstructor'
+        description: "Nuevo Instructor"
+        required: true 
+      
+       EditaInstructor:
+        content:
+         application/json:
+          schema:
+            $ref: '#/components/schemas/EditaInstructor'
+        description: "Edita un Instructor"
+        required: true
+       
+                
+security:
+  #- BasicAuth: []
+  #- ApiKeyAuth: []
+  - OAuth2: []
+   #   - read
+    #  - write
+
+paths: #puntos finales (rutas) y metodos (verbos) http /Punto final
+#cuando un punto final tenga corchetes significa que nesecita un parametro
+
+
+#Obtener una lista de todas las matriculas existentes _ cargar diploma (v)                      
+              
+  /administrador/estudiante/matriculas:  
+    get:
+      tags:
+        - Usuario administrador
+      security:
+        - OAuth2: [administrador] 
+      description: Obtiene una lista de todos las matriculas de los estudiantes existentes
+      summary: 'Obtener todas las matriculas existentes de los estudiantes'
+      
+      responses:
+        '200':
+          description: 'Ok'
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    idusuario:
+                      type: integer
+                      example: 1
+                    matricula: 
+                      type: integer
+                      example: 17579687126873
+                      description: 'matricula'
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'    
+
+  /administrador/instructor/{id}:  
+    get:
+      tags:
+        - Usuario administrador
+      description: Obtiene todos los idGrupo activos
+      summary: Obtiene todos los idGrupo activos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Id unico de cada idGrupo
+          schema:
+            type: string
+      #  ---- /Added lines  ----------------------------------------        
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    $ref: '#/components/schemas/Taller'
+        '400':
+          description: Sintaxis invalida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                   type: string
+        '401':
+          description: Error de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Error de autenticación
+                    description: Hubo un error en el proceso
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Error no se ha podido procesar, intente más Tarde
+                    description: Error en el proceso
+   
+  /estudiante:
+    post:
+      tags:
+        - Usuario estudiante
+      description: Crea nuevo usuario a partir de los datos proporcionados. REVISADO
+      summary: Crea nuevo usuario
+      operationId: CreaUsuario
+      requestBody:
+          $ref: '#/components/requestBodies/nuevoUsuario'
+  
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/respuestaNuevoUsuario' 
+                
+        '400':
+          description: La matricula que intenta ingresar ya existe
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: La Matricula ya esta habilitaada
+                    description: La matricula que intenta ingresar ya existe
+        
+
+
+
+        '401':
+          description: Error de la validacion de campos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: No se han obtenido datos de validacion
+                    description: No se han obtenido datos
+
+
+
+        '500':
+          description: Error de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: No se ha podido procesar correctamente intentelo mas tarde
+                    description: Error No Se Ha Podido Procesar, Intente Más Tarde
+    put:
+      tags:
+        - Usuario estudiante
+      description: Edita el usuario a partir de los datos proporcionados. REVISADO
+      summary: Editar usuario
+      operationId: EditaUsuario
+      requestBody:
+        $ref: '#/components/requestBodies/EditaUsuario'
+              
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/respuestaEditaUsuario'
+                
+        '400':
+          description: No se han obtenido datos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: No ha llenado todos los campos
+                    description: Faltan campos por llenar
+        '401':
+          description: Error de la validacion de campos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: No se han obtenido datos de validacion
+                    description: No se han obtenido datos
+        '500':
+          description: Error de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: No se ha podido procesar correctamente intentelo mas tarde
+                    description: Error No Se Ha Podido Procesar, Intente Más Tarde
+                    
+  /estudiante/{idEstudiante}:                  
+    delete:
+      tags:
+        - Usuario estudiante
+      description: Elimina el usuario a partir del id estudiante. REVISADO
+      summary: Elimina usuario
+      operationId: EliminaUsuario
+      parameters:
+        - name: idEstudiante
+          in: path
+          required: true
+          description: Id del estudiante
+          schema:
+           type: integer
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/respuestaEliminaUsuario'
+        '400':
+          description: No se han obtenido datos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: No ha llenado todos los campos
+                    description: Faltan campos por llenar
+        '401':
+          description: Error de la validacion de campos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: No se han obtenido datos de validacion
+                    description: No se han obtenido datos
+        '500':
+          description: Error de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: No se ha podido procesar correctamente intentelo mas tarde
+                    description: Error No Se Ha Podido Procesar, Intente Más Tarde  
+                                  
+  /estudiante/filtro/{nombre}:  
+    get:
+        tags:
+          - Usuario estudiante
+        description: Obtiene los estudiantes coincidentes por el nombre REVISADO
+        summary: 'Filtra los estudiantes coinsidentes'
+        operationId: filtro
+        parameters:
+          - name: nombre
+            in: path
+            required: true
+            description:  Nombre del usuario
+            schema:
+              type: string
+        
+        responses:
+          '200':
+            description: 'Ok'
+            content: 
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/respuestaFiltroUsuarios'               
+    
+  ##Laureano
+  /estudiante/perfil:
+    get:
+      tags: 
+       - Usuario estudiante
+      description: Obtener perfil del estudiante REVISADO .
+      summary: Obtener perfil del estudiante
+      operationId: obtenerPerfil
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesión
+          schema:
+            type: string
+
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/respuestaObtenerPerfil'
+                
+        "400":
+          description: solicitud incorrecta
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Volver intentar
+        '401':
+          description: Error de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Error De Autenticación
+                    description: Hubo un error en el proceso
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Error No Se Ha Podido Procesar, Intente Más Tarde
+                    description: Error en el proceso
+  
+  /estudiante/perfil/taller:
+    get:
+      tags:
+      - Usuario estudiante
+      description: Obiene los talleres del usuario  REVISADO
+      summary: Obtiene los talleres del usuario 
+      operationId: tallerEstudiante 
+      parameters:
+
+        - name: token
+          in: header
+          required: true
+          description: Token de sesión
+          schema:
+            type: string
+    
+             
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/respuestaTallerEstudiante'
+              
+        "400":
+          description: solicitud incorrecta
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Volver intentar
+        '401':
+          description: Error de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Error De Autenticación
+                    description: Hubo un error en el proceso
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Error No Se Ha Podido Procesar, Intente Más Tarde
+                    description: Error en el proceso
+            
+  /instructor:
+    post:
+      tags:
+        - Usuario instructor
+      description: Crea instrcutor a partir de los datos proporcionados.REVISADO
+      summary: Crea  instructor
+      operationId: CreaInstructor
+      requestBody:
+           $ref: '#/components/requestBodies/nuevoInstructor'
+             
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/respuestaNuevoInstructor'
+                
+        '400':
+          description: No se han obtenido datos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: No ha llenado todos los campos
+                    description: Faltan campos por llenar
+
+        '401':
+          description: Error de la validacion de campos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: No se han obtenido datos de validacion
+                    description: No se han obtenido datos
+        '500':
+          description: Error de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: No se ha podido procesar correctamente intentelo mas tarde
+                    description: Error No Se Ha Podido Procesar, Intente Más Tarde
+    put:
+      tags:
+        - Usuario instructor
+      description: Edita instructor a partir de los datos proporcionados.REVISADO
+      summary: Edita instrcutor
+      operationId: EditaInstructor
+      requestBody:
+          $ref: '#/components/requestBodies/EditaInstructor'
+             
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/respuestaEditaInstructor'
+                
+        '400':
+          description: No se han obtenido datos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: No ha llenado todos los campos
+                    description: Faltan campos por llenar
+        '401':
+          description: Error de la validacion de campos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: No se han obtenido datos de validacion
+                    description: No se han obtenido datos
+        '500':
+          description: Error de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: No se ha podido procesar correctamente intentelo mas tarde
+                    description: Error No Se Ha Podido Procesar, Intente Más Tarde
+    
+  
+    get:
+      tags:
+        - Usuario instructor
+      description: Obtiene todos los instructores existentes REVISADO
+      summary: Obtiene todos los instructores
+      operationId: ObtieneInstructores
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesión
+          schema:
+            type: string
+      #  ---- /Added lines  ----------------------------------------        
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/respuestaObtieneInstructores'
+                      
+        '400':
+          description: Sintaxis invalida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                   type: string
+        '401':
+          description: Error de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Error de autenticación
+                    description: Hubo un error en el proceso
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Error no se ha podido procesar, intente mas tarde
+                    description: Error en el proceso
+                    
+  /instructor/{idInstructor}:  
+    delete:
+      tags:
+        - Usuario instructor
+      description: Elimina instructor por el Id instructor. REVISADO
+      summary: Elimina instructor
+      operationId: EliminaInstructor
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token de la sesión
+          schema:
+           type: integer
+        - name: idInstructor
+          in: path
+          required: true
+          description: Id del instructor
+          schema:
+           type: integer   
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/respuestaEliminaInstructor'
+                
+        '400':
+          description: No se han obtenido datos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: No ha llenado todos los campos
+                    description: Faltan campos por llenar
+        '401':
+          description: Error de la validacion de campos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: No se han obtenido datos de validacion
+                    description: No se han obtenido datos
+        '500':
+          description: Error de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: No se ha podido procesar correctamente intentelo mas tarde
+                    description: Error no se ha podido procesar, intente más tarde
+                  
+                    
+  /instructor/filtro/{nombre}:                  
+    get:
+        tags:
+          - Usuario instructor
+        description: Obtiene los instructores coincidentes por el nombre.REVISADO
+        summary: 'Filtra los instructores coincidentes'
+        operationId: Filtro
+        parameters:
+          - name: nombre
+            in: path
+            required: true
+            description:  Nombre del instructor
+            schema:
+              type: string
+        
+        responses:
+          '200':
+            description: 'Ok'
+            content: 
+              application/json:
+                schema:
+                   $ref: '#/components/schemas/respuestaFiltro'
+    
+                                  
+
+
+            
+#IVAN - INST-01 - (Obtiene información de instructor -curriculum)
+  /instructor/perfil:
+    get:
+      tags:
+        - Usuario instructor
+      security:
+        - OAuth2: [instructor] 
+      description: Obtiene el perfil de un determinado instructor a traves de su idUsuario
+      summary: Obtener el perfil del instructor
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesión
+          schema:
+            type: string
+          
+      responses:
+        '200':
+          description: 'Ok'
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nombre:
+                    type: string
+                    example: 'Juan Ramon perez Ayala'
+                    description: Nombre del instructor
+                  correo:
+                    type: string
+                    example: 'juan@gmail.com'
+                    description: Correo del instructor
+                  formacionAcademica:
+                    type: string
+                    example: 'Tecnologico de Estudios Superiores - Ingenieria en Informatica'
+                    description: Formacion academica del instructor
+                  experiencia:
+                    type: string
+                    example: 'DevOps en Strapps'
+                    description: Experiencia del instructor
+                  redesSociales:
+                    type: string
+                    example: 'www.fb.com'
+                    description: Redes sociales del instructor
+  
+                  campos:
+                    type: array
+                    description: lista de campos agregados por el instructor
+                    items:
+                      type: object
+                      properties:
+                        nombre: 
+                          type: string
+                          example: facebook'
+                          description: Nombre del campo agregado
+                        contenido:
+                          type: string
+                          example: 'R Ayala'
+                          description: Contenido del campo agregado
+
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'
+
+
+
+
+#IVAN - INST-02 - (Editar información de instructor -curriculum)
+
+    put:
+      tags:
+        - Usuario instructor
+      security:
+        - OAuth2: [instructor] 
+      description: Edita el perfil de un determinado instructor a traves de su idUsuario
+      summary: Editar perfil de instructor
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: token del inicio de sesión
+          schema:
+            type: string
+      requestBody:
+        description: Nueva informacion del perfil instructor
+        required: true
+        content:  
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                   type: string
+                   example: 'Juan Ramon perez Ayala'
+                   description: Nombre del instructor
+                correo:
+                  type: string
+                  example: 'juan@gmail.com'
+                  description: correo del instructor
+                formacionAcademica:
+                  type: string
+                  example: 'Tecnologico de Estudios Superiores - Ingenieria en Informatica'
+                  description: Formacion academica del instructor
+                experiencia:
+                  type: string
+                  example: 'DevOps en Strapps'
+                  description: Experiencia del instructor
+                redesSociales:
+                  type: string
+                  example: 'www.fb.com'
+                  description: Redes sociales del instructor
+  
+                campos:
+                  type: array
+                  description: Lista de campos agregados por el instructor
+                  items:
+                    type: object
+                    properties:
+                      nombre: 
+                        type: string
+                        example: facebook'
+                        description: Nombre del campo agregado
+                      contenido:
+                        type: string
+                        example: 'R Ayala'
+                        description: Contenido del campo agregado
+
+
+      responses:
+        '200':
+          description: 'Ok'
+          content: 
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: 'curriculum editado correctamente'
+                    description: 'Mensaje de respuesta'  
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'
+          
+          
+  #IVAN - INST-03 - (Obtener foto de perfil instructor)  
+  /instructor/foto:
+    get:
+      tags:
+        - Usuario instructor
+      security:
+        - OAuth2: [instructor] 
+      description: Obtiene la foto de perfil instructor a traves de su idUsuario
+      summary: Obtener la foto de perfil instructor
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesión
+          schema:
+            type: string
+              
+      responses:
+        '200':
+          description: 'Ok'
+          content: 
+            image/png:
+              schema:
+                type: string
+                format: binary
+                description: Foto de perfil instructor
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'   
+          
+          
+  #IVAN - INST-04 - (Editar foto de perfil)  
+    patch:
+      tags:
+        - Usuario instructor
+      security:
+        - OAuth2: [instructor] 
+      description: Edita la foto de perfil instructor a traves de su idUsuario
+      summary: Editar foto de perfil instructor
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesión
+          schema:
+            type: string
+      requestBody:
+        description: Nueva foto del perfil instructor
+        required: true
+        content:  
+          image/jpg:
+            schema: 
+              type: string
+              format: binary
+              
+      responses:
+        '200':
+          description: 'Ok'
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: 'Imagen editada correctamente'
+                    description: Mensaje de respuesta' 
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'
+    
+  
+             

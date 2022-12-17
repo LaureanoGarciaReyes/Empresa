@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <title>iPortfolio Bootstrap Template - Index</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="/assets/img/favicon.png" rel="icon">
+    <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <title>SILULADOR DE PRACTICA</title>
+</head>
+<script lang="JavaScript">
+    
+    alert("Bienvenid@ a la Simulacion de Practica  \n\nSeleccione las respuestas que crea correctas, teniendo en " +
+        "\ncuenta las siguientes consideraciones \n\n1. Los aciertos tienen el valor de un punto" +
+        " \n\n2. Las respuestas no contestadas ni suman ni restan puntos.")
+    
+
+    var resp = new Array;
+    var faite = new Array;
+    var score = 0;
+/*
+    resp[1] = "a";
+    resp[2] = "b";
+    resp[3] = "c";
+    resp[4] = "a";
+    resp[5] = "c";
+    resp[6] = "c";
+    resp[7] = "b";
+    resp[8] = "c";
+    resp[9] = "b";
+    resp[10] = "a";
+
+    function Engine(question, repose) {
+        if (repose != resp[question]) {
+            if (!faite[question]) { faite[question] = -1; }
+        }
+        else {
+
+            if (!faite[question]) {
+                faite[question] = -1;
+                score++;
+                alert("¡Correcto! Tu puntuación es : " + score);
+            }
+
+        }
+    }
+*/
+   /* function Nivel() {
+
+        if (score >= 9 && score < 10) {
+            alert(score + "/10 " + "Muy bien, prueba a superarlo");
+        }
+        if (score >= 7 && score < 8) {
+            alert(score + "/10 " + "Bien, pero puedes hacerlo mejor");
+        }
+        if (score >= 5 && score < 6) {
+            alert(score + "/10 " + "A pansanso pasaste. No te fíes");
+        }
+        if (score >= 3 && score < 4) {
+            alert(score + "/10 " + "Insuficiente. Has de estudiar más");
+        }
+       if (score < 2) {
+            alert("Su puntuación es: " + score
+                + "\nLa puntuación máxima que podía obtener es 10"
+                + "\nTiene que reviazar nuevamente sus lecciones"
+                + "\nSu porcentaje de aciertos es menos del 10%"); //boton de guardar y ver resultados
+        }
+    }*/
+</script>
+
+<body bg-color="#FFFFFF" text="#000000">
+    <table width="785" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="#336699" height="2">
+        <tr>
+            <td width="50" rowspan="2"><img src="/assets/img/logo1.jpg" width="50" height="50"></td>
+            <td width="515" class="TopicTitle">
+                <font face="Verdana, Arial, Helvetica, sans-serif" color="#336699"><b>
+                        SIMULADOR DE PRÁCTICA</b></font>
+            </td>
+        </tr>
+        <tr>
+            <td width="515" bgcolor="#336699"> </td>
+        </tr>
+        <tr bgcolor="#FFFFFF">
+            <td> </td>
+            <td class="TopicSubtitle">
+                <font face="Verdana, Arial, Helvetica, sans-serif" color="#336699">
+                    Selecciona la (o las) respuesta(s) correcta(s)</font>
+            </td>
+        </tr>
+        <tr>
+            <td height="521"></td>
+            <td height="521">
+                <div align="center">
+                    <div align="left">
+                        <FORM NAME="formulario" ACTION="">
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">1.
+                                    Si la Dayli Meeting tiene un timebox de 15 minutos entonces....</font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=1 onClick="Engine(1, this.value)" type=radio value=a>
+                                     El Sprint Review es de 4 horas.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=1 onClick="Engine(1, this.value)" type=radio value=b>
+                                     El Sprint Review es de 1 hora.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=1 onClick="Engine(1, this.value)" type=radio value=c>
+                                     No se puede decir nada de la duración del Sprint Review.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=1 onClick="Engine(1, this.value)" type=radio value=d>
+                                    El Sprint Review es de 2 horas.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><br>
+
+                                    <!--pregunta dos-->
+                                    2. ¿Quien participa en la reunion Sprint Retrospective?
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=2 onClick="Engine(2, this.value)" type=radio value=a>
+                                     El Equipo Scrum.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=2 onClick="Engine(2, this.value)" type=radio value=b>
+                                     Obligatorio el Development Team y Product Owner, opcional el Scrum Master y el
+                                    Cliente.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=2 onClick="Engine(2, this.value)" type=radio value=c>
+                                     Obligatorio el Development Team, opcional el Scrum Master, y Product Owner.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=2 onClick="Engine(2, this.value)" type=radio value=d>
+                                     Obligatorio el Equipo Scrum, opcional el cliente.
+                                </font>
+                            </p>
+                            <br>
+                            <!--Pregunta tres-->
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">3.
+                                    El acrónimo que define el Product Backlog es:</font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=3 onClick="Engine(3, this.value)" type=radio value=a>
+                                     PEET (Priorized, estimated, emerfent and testable).
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=3 onClick="Engine(3, this.value)" type=radio value=b>
+                                     Ninguno.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=3 onClick="Engine(3, this.value)" type=radio value=c>
+                                     DEEP (Detailed appropiately, estimated, emergent and prioritized).
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=3 onClick="Engine(3, this.value)" type=radio value=d>
+                                     DEET (Detailed appropiately, estimated, emergent and testable).
+                                </font>
+                            </p>
+                            <br>
+                            <!--Pregunta cuatro-->
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">4.
+                                    ¿Ágil y Scrum son lo mismo?</font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=4 onClick="Engine(4, this.value)" type=radio value=a>
+                                     Verdadero.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=4 onClick="Engine(4, this.value)" type=radio value=b>
+                                     Falso.
+                                </font>
+                            </p>
+                            <br>
+                            <!--Pregunta cinco-->
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">5.
+                                    ¿Por qué se celebra el Daily Scrum a la misma hora y en un lugar diferente?</font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=5 onClick="Engine(5, this.value)" type=radio value=a>
+                                     Es una opción, pero no se recomienda como se dijo, en un lugar diferente.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=5 onClick="Engine(5, this.value)" type=radio value=b>
+                                     Las salas de reuniones son difíciles de reservar y esto permite que se pueda
+                                    reservar cualquier lugar.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=5 onClick="Engine(5, this.value)" type=radio value=c>
+                                     El lugar puede ser nombrado.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=5 onClick="Engine(5, this.value)" type=radio value=d>
+                                     El Team lo necesita y es la mejor opción.
+                                </font>
+                            </p>
+                            <br>
+                            <!--Pregunta seis-->
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">6.
+                                    ¿Cuáles son los roles en un Scrum Team?</font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=6 onClick="Engine(6, this.value)" type=radio value=a>
+                                     Scrum Manager, Product Owner y Development Team.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=6 onClick="Engine(6, this.value)" type=radio value=b>
+                                     Scrum Tester, Product Owner y Development Team.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=6 onClick="Engine(6, this.value)" type=radio value=c>
+                                     Ninguno.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=6 onClick="Engine(6, this.value)" type=radio value=d>
+                                     Scrum Project, Product Owner y Scrum Manager.
+                                </font>
+                            </p>
+                            <br>
+                            <!--Pregunta siete-->
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">7.
+                                    El proyecto se divide en dos Sprints, cada Sprint es de dos semanas de <br>
+                                    duración, entonces... 
+                                    </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=7 onClick="Engine(7, this.value)" type=radio value=a>
+                                     Se podría programar una sola reunión de refinamiento. 
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=7 onClick="Engine(7, this.value)" type=radio value=b>
+                                     Se podría programar el refinamiento según sea necesario pero el total no pude
+                                    <br> exceder más de 10% de la capacidad del equipo de desarrollo.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=7 onClick="Engine(7, this.value)" type=radio value=c>
+                                     Se podría programar al menos dos reuniones para refinamiento, cada una de ellas de 
+                                    <br>dos horas de duración. 
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=7 onClick="Engine(7, this.value)" type=radio value=d>
+                                     No tiene sentido cualquier reunión de refinamiento. 
+                                </font>
+                            </p>
+                            <br>
+                            <!--Pregunta ocho-->
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">8.
+                                    ¿Cuál de los siguientes es parte del Manifiesto Ágil?</font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=8 onClick="Engine(8, this.value)" type=radio value=a>
+                                     Equipo sobre el gestor de proyectos.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=8 onClick="Engine(8, this.value)" type=radio value=b>
+                                     Responder al cambio sobre el seguimiento a un plan.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=8 onClick="Engine(8, this.value)" type=radio value=c>
+                                     Siguiendo un plan sobre la respuesta al cambio. 
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=8 onClick="Engine(8, this.value)" type=radio value=d>
+                                     La negociación del contrato sobre seguir un plan.
+                                </font>
+                            </p>
+                            <br>
+                            <!--Pregunta nueve-->
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">9.
+                                    Si necesitamos 20 ingenieros para desarrollar un motor industrial,<br>
+                                    podríamos formar cinco equipos de desarrollo de cuatro miembros cada<br>
+                                    uno, donde cada equipo de desarrollo tiene su propio Scrum Master, y <br>
+                                    todos los equipos de desarrollo tiene un Product Owner. ¿Esta forma de<br>
+                                    trabajo está adecuado?</font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=9 onClick="Engine(9, this.value)" type=radio value=a>
+                                     Verdadero.</font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=9 onClick="Engine(9, this.value)" type=radio value=b>
+                                     Falso.
+                                </font>
+                            </p>
+                            <br>
+                            <!--Pregunta diez-->
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">10.
+                                    ¿Cuál es el time-box para un Sprint?</font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=10 onClick="Engine(10, this.value)" type=radio value=a>
+                                     Exactamente un mes
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=10 onClick="Engine(10, this.value)" type=radio value=b>
+                                     15 minutos.
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=10 onClick="Engine(10, this.value)" type=radio value=c>
+                                     Depende del producto, proyecto o servicio, generalmente no mayor a un mes. 
+                                </font>
+                            </p>
+                            <p>
+                                <font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+                                    <input name=10 onClick="Engine(10, this.value)" type=radio value=d>
+                                     2 horas siempre.
+                                </font>
+                            </p>
+                            <br>
+
+                            <p>
+                                <button type="button" class="btn btn-outline-primary" onclick="Nivel()">Guardar/Resultados</button> 
+                                <button type="button" class="btn btn-outline-primary" onclick="history.go(-1);">Pagina Anterior</button> 
+                                <button type="reset"  class="btn btn-outline-primary"  name="reset">Borrar resultados</button> 
+                                
+                                
+                            </p>
+                            
+                        </FORM>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <p> </p>
+
+</body>
+
+</html>
+
+</html>

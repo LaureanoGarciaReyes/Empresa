@@ -1,0 +1,979 @@
+openapi: 3.0.0 
+
+info:
+  version: 1.0.0 
+  title: Proyecto STRAPPS COMMUNITY 
+  description: API de la pagina de STRAPPS COMMUNITY 
+
+  
+servers: 
+  - url: www.strappsconsulting.com
+    description: pagina de strapps
+
+
+components: 
+  securitySchemes:
+
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            usuario: Permisos para partes especificas de la api
+            instructor: Permisos para partes especificas de la api
+            administrador: Todos los permisos
+      
+  responses:
+    400Error:
+      description: Solicitud incorrecta
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: Descripcion del error
+                example: 'Peticion no valida, favor de validar su informacion'
+    401Error:
+      description: 'No autorizado'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: Descripcion del error
+                example: 'Es necesario autenticar para obtener la respuesta solicitada.'      
+
+    404Error:
+      description: 'Recurso no encontrado'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: 'Descripcion del error'
+                example: 'El servidor no pudo encontrar el contenido solicitado'
+
+    500Error:
+      description: 'Error interno de servidor'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: 'Descripcion del error'
+                example: 'Oppps, no se pudo procesar'
+
+                
+security:
+  #- BasicAuth: []
+  #- ApiKeyAuth: []
+  - OAuth2: []
+   #   - read
+    #  - write
+
+paths: #puntos finales (rutas) y metodos (verbos) http /Punto final
+#cuando un punto final tenga corchetes significa que nesecita un parametro
+
+##Administrador
+
+
+
+
+##Agregar simulador
+  /simulador/interno/{idTaller}:
+    post:
+      tags:
+        - Simulador interno Administrador 
+      security:
+        - OAuth2: [administrador]
+      description: Registra un simulador interno
+      summary: Registrar un simulador interno
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+        - name: idTaller
+          in: path
+          required: true
+          description: Id del Taller
+          schema:
+            type: integer
+  
+      requestBody:
+        description: Informacion del simulador
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titulo:
+                  type: string
+                  example: Examen de SCRUM
+                  description: Titulo del examen
+                description:
+                  type: string 
+                  description: Descripcion del examen 
+                  example: Responder todas las preguntas
+                
+
+
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  idSimulador:
+                    type: integer
+                    example: 1
+                    description: Id del simulador
+                  mensaje: 
+                    type: string
+                    example: 'Se ha creado exitosamente el examen'
+                    description: mensaje de respuesta
+
+                    
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error' 
+          
+          
+##Obtener simulador interno
+    get:
+      tags:
+        - Simulador interno Administrador
+      security:
+        - OAuth2: [administrador]
+      description: Obtiene simuladores internos
+      summary: Obtener simuladores internos
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+        - name: idTaller
+          in: path
+          required: true
+          description: Id del taller
+          schema:
+            type: integer
+  
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Lista de simuladores
+                items: 
+                  type: object
+                  properties:
+                    idSimulador:
+                      type: integer
+                      example: 1
+                      description: Id del simulador
+                    titulo:
+                      type: string
+                      example: Examen de SCRUM
+                      description: Título del simulador
+                    description:
+                      type: string 
+                      description: Descripción del examen 
+                      example: Responder todas las preguntas
+                    preguntas:
+                      description: Lista de preguntas
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          idPregunta:
+                            type: integer
+                            example: 1
+                            description: Id de la pregunta
+                          Pregunta:
+                            type: string
+                            example: ¿Que es Scrum?
+                            description: Pregunta de examen
+                          puntaje:
+                            type: number
+                            format: float
+                            example: 1.5
+                            description: Valor de la pregunta
+                          opciones:
+                            type: array
+                            description: lista de opciones de la pregunta
+                            items:
+                              type: object
+                              properties:
+                                idOpcion: 
+                                  type: integer
+                                  example: 1
+                                  description: Id de la opcion
+                                opcion:
+                                  type: string
+                                  example: "Scrum es un marco de trabajo"
+                                  description: Opcion de la pregunta
+                                opcionCorrecta:
+                                  type: boolean
+                                  example: true
+                                  description: Indica si la opcion es la correcta
+
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error' 
+          
+
+##Simulador/pregunta/editar {idPregunta }
+  /simulador/pregunta/{idPregunta}:
+    put:
+      tags:
+        - Simulador interno Administrador
+      security:
+        - OAuth2: [administrador]
+      description: Edita una pregunta de un examen
+      summary: Editar una pregunta de un examen
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+        - name: idPregunta
+          in: path
+          required: true
+          description: id del Examen
+          schema:
+            type: integer
+  
+      requestBody:
+        description: Pregunta que sustituira a la anterior
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                
+                idPregunta:
+                  type: integer
+                  example: 1
+                  description: Id de la pregunta
+                idSimulador:
+                  type: integer
+                  example: 1
+                  description: Id del simulador
+                Pregunta:
+                  type: string
+                  example: ¿Que es Scrum?
+                  description: Pregunta de examen
+                puntaje:
+                  type: number
+                  format: float
+                  example: 1.5
+                  description: Valor de la pregunta
+                opciones:
+                  type: array
+                  description: lista de opciones de la pregunta
+                  items:
+                    type: object
+                    properties:
+                      idOpcion: 
+                        type: integer
+                        example: 1
+                        description: Id de la Opcion
+                      opcion:
+                        type: string
+                        example: "Scrum es un marco de trabajo"
+                        description: Opcion de la pregunta
+                      opcionCorrecta:
+                        type: boolean
+                        example: true
+                        description: Indica si la opcion es la correcta
+      
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  idDiploma:
+                    type: integer
+                    example: 12345
+                    description: id asignado al diploma
+                  mensaje: 
+                    type: string
+                    example: 'Se ha subido exitosamente el diploma'
+                    description: mensaje de respuesta
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'  
+
+
+
+##Simulador/pregunta/eliminar {idPregunta}
+    delete:
+      tags:
+        - Simulador interno Administrador
+      security:
+        - OAuth2: [administrador]
+      description: Elimina una pregunta de un examen
+      summary: Eliminar una pregunta de un examen
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+        - name: idPregunta
+          in: path
+          required: true
+          description: Id de la pregunta
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: 'Se ha eliminado la pregunta'
+                    description: Mensaje de respuesta
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'  
+
+
+
+
+##AGREGAR PREGUNTA
+  /simulador/pregunta/:
+    post:
+      tags:
+        - Simulador interno Administrador
+      security:
+        - OAuth2: [administrador]
+      description: Agregar una pregunta a un examen
+      summary: Agregar una pregunta a un examen
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+
+  
+      requestBody:
+        description: Pregunta para un determinado examen
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idSimulador:
+                  type: integer
+                  example: 1
+                  description: Id del simulador  
+                Pregunta:
+                  type: string
+                  example: ¿Que es Scrum?
+                  description: Pregunta de examen
+                puntaje:
+                  type: number
+                  format: float
+                  example: 1.5
+                  description: Valor de la pregunta
+                opciones:
+                  type: array
+                  description: lista de opciones de la pregunta
+                  items:
+                    type: object
+                    properties:
+                      idOpcion: 
+                        type: integer 
+                        example: 1
+                        description: Id de la opcion
+                      opcion:
+                        type: string
+                        example: Scrum es un marco metodologico
+                        description: Opcion de la pregunta
+                      opcionCorrecta:
+                        type: boolean
+                        example: true
+                        description: Indica si esta respuesta es la correcta
+      
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: 'Se ha agregado correctamente la pregunta'
+                    description: mensaje de respuesta
+                  idPregunta: 
+                    type: integer
+                    example: 1
+                    description: id asiganado a la pregunta
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'  
+          
+          
+          
+          
+          
+          
+          
+
+##Agregar simulador externo
+  /simulador/externo/{idTaller}:
+    post:
+      tags:
+        - Simulador externo Administrador
+      security:
+        - OAuth2: [administrador]
+      description: Registra un simulador externo
+      summary: Registrar un simulador externo
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesíon
+          schema:
+            type: string
+        - name: idTaller
+          in: path
+          required: true
+          description: Id del Taller
+          schema:
+            type: integer
+  
+      requestBody:
+        description: Informacion del simulador
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titulo:
+                  type: string
+                  example: Examen de SCRUM
+                  description: Título del examen
+                link:
+                  type: string 
+                  description: link del examen 
+                  example: www.googleform.com/examScruim18968729wn1x9e7
+
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: 'Se ha registrado exitosamente el examen'
+                    description: mensaje de respuesta
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error' 
+
+
+    put:
+      tags:
+        - Simulador externo Administrador
+      security:
+        - OAuth2: [administrador]
+      description: Edita un simulador externo
+      summary: Editar un simulador externo
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+        - name: idTaller
+          in: path
+          required: true
+          description: Id del Taller
+          schema:
+            type: integer
+  
+      requestBody:
+        description: Informacion del simulador
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titulo:
+                  type: string
+                  example: Examen de SCRUM
+                  description: Titulo del examen
+                link:
+                  type: string 
+                  description: link del examen 
+                  example: www.googleform.com/examScruim18968729wn1x9e7
+
+
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: 'Se ha editado exitosamente el examen'
+                    description: mensaje de respuesta
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error' 
+
+    get:
+      tags:
+        - Simulador externo Administrador
+        - Simulador externo Estudiante
+      security:
+        - OAuth2: [administrador, Estudiante]
+      description: Obtiene un simulador externo por el id taller REVISADO
+      summary: Obtener un simulador externo
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesión
+          schema:
+            type: string
+        - name: idTaller
+          in: path
+          required: true
+          description: Id del Taller
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  titulo:
+                    type: string
+                    example: Examen de SCRUM
+                    description: Título del examen
+                  link:
+                    type: string 
+                    description: link del examen 
+                    example: www.googleform.com/examScruim18968729wn1x9e7
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'
+
+    delete:
+      tags:
+        - Simulador externo Administrador
+      security:
+        - OAuth2: [administrador]
+      description: Elimina un simulador externo
+      summary: Eliminar un simulador externo
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+        - name: idTaller
+          in: path
+          required: true
+          description: Id del Taller
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: se ha eliminado correctamente{
+                    description: Mensaje de la respuesta
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'  
+
+
+##Estudiante
+
+##Simulador/obtener info y primera pregunta y total de preguntas {idExamen}
+  /usuario/simulador/interno/{idTaller}:
+    get:
+      tags:
+        - Simulador interno Estudiante
+      security:
+        - OAuth2: [Estudiante]
+      description: Obtener simulador interno por idTaller REVISADO
+      summary: Obtener un simulador interno 
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+        - name: idTaller
+          in: path
+          required: true
+          description: Id del taller
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  idSimulador:
+                    type: integer
+                    example: 1
+                    description: Id del simulador
+                  titulo:
+                    type: string
+                    example: SCRUM MASTER
+                    description: Título del simulador
+                  descripcion:
+                    type: string
+                    example: Examen de habilidades
+                    description: Descripción del simulador
+                  preguntas:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        idPregunta:
+                          type: integer
+                          example: 1
+                          description: Id pregunta
+                        pregunta: 
+                          type: string
+                          example: ¿Que es scrum?
+                          description: Descripción de la pregunta 
+                        opciones:
+                          type: array
+                          description: Lista de opciones
+                          items:
+                            type: object
+                            properties:
+                              idOpcion:
+                                type: integer
+                                example: 1
+                                description: Id de opción
+                              opcion:
+                                type: string
+                                example: Scrum es un marco metodologico
+                                description: Descripción de la opción
+                            
+                        
+                      
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error' 
+
+  ##Simulador/ cargar los resultados
+  /simulador/estudiante/{idTaller}:
+    post:
+      tags:
+        - Simulador interno Estudiante
+      security:
+        - OAuth2: [Estudiante]
+      description: Registra las respuestas del simulador REVISADO 
+      summary: Registra las respuestas del simulador
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+        - name: idTaller
+          in: path
+          required: true
+          description: Id del Taller
+          schema:
+            type: integer
+  
+      requestBody:
+        description: Respuesta
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                respuestas:
+                  type: array
+                  description: "Respuestas"
+                  items:
+                    type: object
+                    properties:
+                      idPregunta:
+                        type: integer
+                        example: 1
+                        description: "Id de la pregunta"
+                      idOpcionSelec:
+                        type: integer
+                        example: 3
+                        description: "id de la opción seleccionada"
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  idSimuRespuesta: 
+                    type: number
+                    example: 5
+                    description: Id respuesta del simulador
+                  mensaje: 
+                    type: string
+                    example: 'Se guardo corectamente sus respuestas'
+                    description: mensaje de respuesta
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error' 
+          
+  /simulador/Resultado/{idPregunta}: 
+    get:
+      tags:
+        - Simulador interno Estudiante 
+      security:
+        - OAuth2: [Estudiante]
+      description: Obtiene los resultados del examen del simulador REVISADO
+      summary: Obtiene los resultados del simulador
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+        - name: idPregunta
+          in: path
+          required: true
+          description: Id del Taller
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+
+                  idSimuRespuesta:
+                      type: string
+                      example: 1
+                      description: Id simulador respuesta
+                  idSimulador:
+                      type: string
+                      example: 1  
+                      description: Id de simulador 
+                  simulador:
+                      type: string
+                      example: "Scrum"
+                      description: Título del simulador
+                  descripcion:
+                      type: string
+                      example: Contestar las preguntas
+                      description: Descripción del simulador
+                  preguntas:
+                        type: array
+                        description: Lista de preguntas
+                        items:
+                          type: object
+                          properties:
+                            idPregunta:
+                              type: integer
+                              example: 1
+                              description: Id de pregunta
+                            pregunta:
+                                  type: string
+                                  example: "Que es scrum?"
+                                  description: Descripción de la pregunta
+                            opciones:
+                                  type: array
+                                  description: Lista de opciones de la pregunta
+                                  items:
+                                    type: object
+                                    properties:
+                                      idOpcion: 
+                                        type: integer 
+                                        example: 1
+                                        description: Id de opción
+                                      opcion:
+                                        type: string
+                                        example: "true"
+                                        description: Descripción de la opción
+                                      opcionCorrecta: 
+                                        type: integer 
+                                        example: true
+                                        description: Respuesta correcta  
+                                      opcionSeleccionada: 
+                                        type: integer 
+                                        example: true   
+                                        description: Respuesta seleccionada del usuario
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error' 
+          
+ 

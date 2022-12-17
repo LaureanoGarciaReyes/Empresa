@@ -1,0 +1,556 @@
+openapi: 3.0.0
+
+info:
+  version: 1.0.0
+  title: STRAPPS COMMUNITY Entidad Taller
+  description: APIS de la entidad taller para STRAPPS COMMUNITY
+
+servers:
+  - url: www.strappsconsulting.com
+    description: pagina de strapps
+
+tags:
+  - name: Taller
+    description: Endpoint para las solicitudes de Taller
+
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            usuario: Permisos para partes especificas de la api
+            instructor: Permisos para partes especificas de la api
+            administrador: Todos los permisos
+
+  responses:
+  
+    TalleresList:
+      description: Listado de talleres
+      content:
+        application/json:
+          schema:
+            type: array
+            maxItems: 100
+            items:
+              $ref: "#/components/schemas/taller"
+
+    400Error:
+      description: Solicitud incorrecta
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              mensaje:
+                type: string
+                description: Descripcion del error
+                example: "Peticion no valida, favor de validar su informacion"
+
+    401Error:
+      description: "No autorizado"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              mensaje:
+                type: string
+                description: Descripcion del error
+                example: "Es necesario autenticar para obtener la respuesta solicitada."
+
+    404Error:
+      description: "Recurso no encontrado"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              mensaje:
+                type: string
+                description: "Descripcion del error"
+                example: "El servidor no pudo encontrar el contenido solicitado"
+
+    500Error:
+      description: "Error interno de servidor"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              mensaje:
+                type: string
+                description: "Descripcion del error"
+                example: "Oppps, no se pudo procesar"
+
+  schemas:
+    nuevoTaller:
+      type: object
+      description: Nuevo taller
+      properties:
+        idTaller:
+          type: string
+          example: SCRUMMAY21
+          description: Id taller (Clave taller)
+        nombre:
+          type: string
+          example: Scrum Principiantes
+          description: Nombre del taller
+        numeroDeHoras:
+          type: number
+          example: "40"
+          description: Número de horas del taller
+        certificacion:
+          type: string
+          example: CERTIPROF
+          description: Certificación del taller
+        temario:
+          type: string
+          format: binary
+          description: Temario del taller en pdf
+
+    respuestaNuevoTaller:
+      type: object
+      properties:
+        mensaje:
+          type: string
+          example: Se creo correctamente el taller
+          description: Mensaje de respuesta de la petición exitosa
+
+    actualizaTaller:
+      type: object
+      properties:
+        idTaller:
+          type: string
+          example: SCRUMMAY21
+          description: Id taller existente (Clave taller)
+        nombre:
+          type: string
+          example: Scrum Principiantes
+          description: Nombre del taller
+        numeroDeHoras:
+          type: number
+          example: "40"
+          description: Número de horas del taller
+        certificacion:
+          type: string
+          example: ISO600
+          description: Certificación del taller
+        temario:
+          type: string
+          format: binary
+          description: Temario del taller en pdf
+
+    respuestaActualizaTaller:
+      type: object
+      properties:
+        mensaje:
+          type: string
+          example: Se actualizo correctamente el taller
+          description: Mensaje de respuesta de la peticion exitosa
+
+    respuestaObtenerTalleres: 
+      type: object
+      properties:
+        idTaller:
+          type: integer
+          example: 1
+          description: "Id taller"
+        claveTaller:
+          type: string
+          example: "SCRUMAY2022"
+          description: Clave taller
+        nombreTaller:
+          type: string
+          example: Scrum principiantes
+          description: Nombre del taller
+          
+    respuestaEliminaTaller:
+      type: object
+      properties:
+        mensaje:
+          type: string
+          example: Se elimino correctamente el taller
+          description: Mensaje de respuesta de la peticion exitosa
+    
+    taller:
+      type: object
+      properties:
+        idTaller:
+          type: string
+          example: "SCRUM-001"
+          description: Id del taller
+        nombre:
+          type: string
+          example: Scrum Principiantes
+          description: Nombre del taller
+        numeroDeHoras:
+          type: number
+          example: "40"
+          description: Número de horas del taller
+        certificacion:
+          type: string
+          example: CERTIPROF
+          description: Certificación del taller
+        urlTemario:
+          type: string
+          example: https://docs.google.com/document/d/1C_YzXDBlKephhQrHhgMb37RW2Esjw__MhMRR8FNyqZ0/edit?usp=sharing&authuser=1
+          description: Url del temario en pdf
+
+  requestBodies:
+    nuevoTaller:
+      content:
+        multipart/form-data:
+          schema:
+            $ref: "#/components/schemas/nuevoTaller"
+      description: "Nuevo taller"
+      required: true
+
+    actualizaTaller:
+      content:
+        multipart/form-data:
+          schema:
+            $ref: "#/components/schemas/actualizaTaller"
+      description: Actualiza un taller
+      required: true
+
+security:
+  #- BasicAuth: []
+  #- ApiKeyAuth: []
+  - OAuth2: []
+    #   - read
+    #  - write
+
+paths:
+  /taller:
+    post:
+      tags:
+        - Taller
+      description: Crea nuevo taller a partir de los datos proporcionados.REVISADO
+      summary: Crea nuevo taller
+      operationId: crear
+      requestBody:
+        $ref: "#/components/requestBodies/nuevoTaller"
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/respuestaNuevoTaller"
+        "400":
+          description: No se han obtenido datos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: No ha llenado todos los campos
+                    description: Faltan campos por llenar
+        "401":
+          description: Error de la validacion de campos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: No se han obtenido datos de validacion
+                    description: No se han obtenido datos
+        "500":
+          description: Error de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: No se ha podido procesar correctamente intentelo mas tarde
+                    description: Error No Se Ha Podido Procesar, Intente Más Tarde
+    put:
+      tags:
+        - Taller
+      description: Actualiza un taller en base a los datos dados. REVISADO
+      summary: Actualiza un taller
+      operationId: actualizar
+      requestBody:
+        $ref: "#/components/requestBodies/actualizaTaller"
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/respuestaActualizaTaller"
+
+        "400":
+          description: Faltan campos por llenar
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Faltan campos por llenar
+                    description: Faltan campos por llenar
+        "401":
+          description: Error de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Error de autenticación
+                    description: Hubo un error en el proceso
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Error no se ha podido procesar, intente más tarde
+                    description: Error en el proceso
+    get:
+      tags:
+        - Taller
+      security:
+        - OAuth2: [administrador]
+      description: Obtiene una lista de todos los talleres existentes REVISADO
+      summary: "Obtener todos los talleres existentes"
+      operationId: obtener
+      responses:
+        "200":
+          description: "Ok"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/respuestaObtenerTalleres"
+
+  /taller/{idTaller}:
+    delete:
+      tags:
+        - Taller
+      description: Elimina un taller por el id taller especificado. REVISADO
+      summary: Elimina un taller
+      operationId: EliminaTaller
+      parameters:
+        - name: idTaller
+          in: path
+          description: Id del taller
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                 $ref: "#/components/schemas/respuestaEliminaTaller" 
+                
+        "400":
+          description: Faltan campos por llenar
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Faltan campos por llenar
+                    description: Faltan campos por llenar
+        "401":
+          description: Error de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Error de autenticación
+                    description: Hubo un error en el proceso
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Error no se ha podido procesar, intente más tarde
+                    description: Error en el proceso
+
+#    get:
+#      tags:
+#        - Taller
+#      description: Este metodo va a agarrar el id de los IdTalleres seleccionados y te los va a mostrar
+#      summary: "Obtiene el taller por el id proporcionado - por el momento no se utiliza"
+#      parameters:
+#        - name: idTaller
+#          in: path
+#          required: true
+#          description: Id unico de cada taller
+#          schema:
+#            type: string
+#      #  ---- /Added lines  ----------------------------------------
+#      responses:
+#        "200":
+#          description: OK
+#          content:
+#            application/json:
+#              schema:
+#                $ref: "#/components/schemas/taller"
+#        "400":
+#          description: Sintaxis invalida
+#          content:
+#            application/json:
+#              schema:
+#                type: object
+#                properties:
+#                  mensaje:
+#                    type: string
+#        "401":
+#          description: Error de autenticacion
+#          content:
+#            application/json:
+#              schema:
+#                type: object
+#                properties:
+#                  mensaje:
+#                    type: string
+#                    example: Error de autenticación
+#                    description: Hubo un error en el proceso
+#        "500":
+#          description: Error
+#          content:
+#            application/json:
+#              schema:
+#                type: object
+#                properties:
+#                  mensaje:
+#                    type: string
+#                    example: Error no se ha podido procesar, intente más tarde
+#                    description: Error en el proceso
+
+  /taller/filtro/{idTaller}:
+    get:
+      tags:
+        - Taller
+      description: Obtiene los talleres coincidentes por el IdTaller. REVISADO
+      summary: Filtro de talleres coincidentes
+      operationId: filtrar
+      parameters:
+        - name: idTaller
+          in: path
+          required: true
+          description: Id taller coincidente (Clave taller)
+          schema:
+            type: string
+      #  ---- /Added lines  ----------------------------------------
+      responses:
+        "200":
+           $ref: "#/components/responses/TalleresList"
+            
+#           description: OK
+#           content:
+#             application/json:
+#               schema:
+                
+
+          
+
+        "400":
+          description: Faltan campos por llenar
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Faltan campos por llenar
+                    description: Faltan campos por llenar
+        "401":
+          description: Error de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Error de autenticacion
+                    description: Hubo un error en el proceso
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Error no se ha podido procesar, intente más tarde
+                    description: Error en el proceso
+
+  /talleres/porinstructor: #IVAN - Talleres por instructor - pantalla calendario instructor
+    get:
+      tags:
+        - Taller vs instructor
+      description: Obtiene una lista de los talleres que imparte un instructor
+      summary: "Obtener grupos que imparte un instructor"
+      parameters:
+        - name: idInstructor
+          in: cookie
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: "1123"
+                      description: "id del taller"
+                    tema:
+                      type: string
+                      example: "SCRUM MASTER"
+                      description: "tema del taller"
+
+        "400":
+          $ref: "#/components/responses/400Error"
+
+        "401":
+          $ref: "#/components/responses/401Error"
+
+        "404":
+          $ref: "#/components/responses/404Error"
+
+        "500":
+          $ref: "#/components/responses/500Error"

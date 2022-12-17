@@ -1,0 +1,563 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://petstore.swagger.io/v2'
+info:
+  description: 'Api para la entidad diploma'
+  version: 1.0.0
+  title: DIPLOMA - STRAPPS CONSULTING
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+
+  - name: Diploma
+    description: Acceso a diplomas
+  - name: Taller
+    description: Operaciones con taller
+paths:
+
+#Listo
+  /estudiantes/grupo/{idGrupo}:  
+    get:
+      tags:
+        - Diploma
+      security:
+        - Auth: [administrador] 
+      description: Obtiene una lista de todos los alumnos de un grupo con la informacion de los diplomas
+      summary: 'Obtener los estudiantes de un grupo con sus diplomas'
+      operationId: obtenerDiplomasPorGrupo
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+        - name: idGrupo
+          in: path
+          required: true
+          description: id del grupo a consultar
+          example: SCRUM20ENE2022
+          schema:
+            type: string
+            
+      responses:
+        '200':
+          $ref: '#/components/responses/getDiplomasOk'
+
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'
+
+#Listo
+  /diploma/:
+    post:
+      tags:
+        - Diploma
+      description: Agrega un diploma a un curso de un alumno en especifico
+      summary: Agregar diploma a alumno
+      operationId: agregarDiploma
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+  
+      requestBody:
+        description: Información del diploma
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/infoDiploma'
+  
+      responses:
+        '200':
+          $ref: '#/components/responses/postDiplomaOk'
+
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'  
+          
+          
+          
+  #Listo
+  /diploma/{idDiploma}:
+    patch:
+      tags:
+        - Diploma
+      description: Edita un diploma en especifico
+      summary: Editar diploma a alumno
+      operationId: editarDiploma
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+        - name: idDiploma
+          in: path
+          required: true
+          description: Id del diploma
+          schema:
+            type: integer
+  
+      requestBody:
+        description: Información del diploma
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/editaDiploma'
+
+      
+      responses:
+        '200':
+          $ref: '#/components/responses/patchDiplomaOk'
+
+
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'  
+
+#Listo
+    get:
+      tags:
+        - Diploma
+      description: Obtine un diploma a un curso de un alumno en especifico
+      summary: Obtener diploma de un alumno a traves del id del diploma
+      operationId: obtenerDiplomaPorId
+      parameters:
+        - name: idDiploma
+          in: path
+          required: true
+          description: Id del estudiante
+          schema:
+            type: string
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+
+
+      responses:
+        '200': 
+          $ref: '#/components/responses/getDiplomaOk'
+
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'           
+
+
+
+
+  #LISTO    
+  /diploma/{idEstudiante}/grupo/{idGrupo}:
+    get:
+      tags:
+        - Diploma
+      description: Obtine un diploma a un curso de un alumno en especifico
+      summary: Obtener diploma de un alumno
+      operationId: obtenerDiplomasPorAlumno
+      parameters:
+        - name: idEstudiante
+          in: path
+          required: true
+          description: Id del estudiante
+          schema:
+            type: string
+        - name: idGrupo
+          in: path
+          required: true
+          description: Id del Grupo
+          schema:
+            type: string
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+
+
+      responses:
+        '200': 
+          $ref: '#/components/responses/getDiplomaOk'
+          
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error' 
+          
+          
+#LISTO              
+  /talleres/{idUsuario}:  
+    get:
+      tags:
+        - Taller
+      description: Obtiene una lista de los talleres de un estudiante
+      summary: 'Obtener los talleres de un estudiante'
+      operationId: obtenerTalleresEstudiante
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+        - name: idUsuario
+          in: path
+          required: true
+          description: Id del usuario
+          schema:
+            type: integer
+            example: 1
+            
+      responses:
+        '200':
+          $ref: '#/components/responses/getTalleresOk'
+
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'  
+
+
+#TRABAJANDO
+  /Talleres/Grupos:  
+    get:
+      tags:
+        - Taller
+      description: Obtiene una lista de todos los talleres y grupos
+      summary: 'Obtener lista de todos los talleres y sus grupos'
+      operationId: obtenerTalleresYGrupos
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+            
+      responses:
+        '200':
+          $ref: '#/components/responses/getTallGrupos'
+
+
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'  
+
+          
+
+
+
+components:
+
+  schemas:
+    listaTalleresGrupos:
+      type: array
+      description: Lista de Talleres
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 1
+            description: id del taller
+          clave: 
+            type: string
+            example: "SCR20MAY2022"
+            description: clave del taller
+          tema:
+            type: string
+            example: "SCRUM"
+            description: "Tema del taller"
+          grupos:
+            type: array
+            items:
+              type: object
+              properties:
+                idGrupo: 
+                  type: integer
+                  example: 1
+                  description: id del grupo
+                claveGrupo:
+                  type: string
+                  example: "GROUPSCRMAY2022"
+                  
+                  
+    listaTalleres:
+      type: array
+      description: Lista de talleres del estudiante
+      items:
+        type: object
+        properties:
+          idTaler:
+            type: integer
+            example: 1
+            description: id del grupo
+          tema: 
+                type: string
+                example: "SCRUM"
+                description: Tema del taller
+          idGrupo: 
+            type: integer
+            example: 1
+            description: id del grupo
+          
+    mensaje:
+      type: object
+      properties:
+        mensaje: 
+          type: string
+          example: 'Se ha editado exitosamente el diploma'
+          description: mensaje de respuesta
+          
+    editaDiploma:
+      type: object
+      properties:
+        habilitado: 
+          type: boolean
+          example: "true"
+          description: habilitar la descarga del diploma
+        diplomaPdf:
+          type: string
+          format: binary
+          description: Diploma que reemplazara al antiguo
+  
+  
+    diplomaMensaje:
+      type: object
+      properties:
+        idDiploma:
+          type: integer
+          example: 12345
+          description: id asignado al diploma
+        mensaje: 
+          type: string
+          example: 'Se ha subido exitosamente el diploma'
+          description: mensaje de respuesta
+  
+  
+    infoDiploma:
+      type: object
+      properties:
+        idEstudiante:
+          type: integer
+          example: 13243
+          description: Id del estudiante
+        idGrupo:
+          type: integer
+          example: 1246
+          description: Id del grupo
+        nombreArchivo:
+          type: string
+          example: "D28972892.pdf"
+        diploma:
+          type: string
+          format: binary
+  
+    estudiantesDiplomas:
+      type: object
+      properties:
+        idusuario:
+          type: integer
+          example: 1
+          description: id del usuario estudiante
+        nombre:
+          type: string
+          example: "Juan Perez Perez"
+          description: nombre del usuario estudiante
+        matricula: 
+          type: integer
+          example: 17579687126873
+          description: matricula del usuario estudiante
+        habilitado:
+          type: boolean
+          example: false
+          description: Muestra si la descarga esta habilitada 
+        diploma:
+          type: boolean
+          example: true
+          description: Muestra si tiene cargado el diploma
+        idDiploma: 
+          example: 87122
+          type: integer
+          description: Id del diploma
+          
+          
+
+
+  responses:
+    getTallGrupos:
+      description: 'Ok'
+      content: 
+        application/json:
+          schema:
+            $ref: '#/components/schemas/listaTalleresGrupos'
+  
+  
+    getTalleresOk:
+      description: 'Ok'
+      content: 
+        application/json:
+          schema:
+            $ref: '#/components/schemas/listaTalleres'
+            
+    getDiplomaOk:
+      description: Diploma en formato pdf
+      content:
+        application/pdf:
+          schema:
+            type: string
+            format: binary
+      
+    patchDiplomaOk:  
+      description: 'ok'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/mensaje'
+  
+  
+    postDiplomaOk:
+      description: 'ok'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/diplomaMensaje'
+  
+  
+    getDiplomasOk:
+      description: 'Ok'
+      content: 
+        application/json:
+          schema:
+            $ref: '#/components/schemas/estudiantesDiplomas'
+  
+      
+  
+    400Error:
+      description: Solicitud incorrecta
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: "Descripcion del error"
+                example: Peticion no valida, favor de validar su informacion
+    401Error:
+      description: 'No autorizado'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: Descripcion del error
+                example: 'Es necesario autenticar para obtener la respuesta solicitada.'      
+
+    404Error:
+      description: 'Recurso no encontrado'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: 'Descripcion del error'
+                example: 'El servidor no pudo encontrar el contenido solicitado'
+
+    500Error:
+      description: 'Error interno de servidor'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: 'Descripcion del error'
+                example: 'Oppps, no se pudo procesar'
+
+
+
+  securitySchemes:
+
+
+    Auth: 
+      type: oauth2 
+      flows:
+        implicit:
+          authorizationUrl: 'https://example.com/oauth/authorize'
+          scopes:
+            'usuario': Permisos para partes especificas de la api
+            'instructor': Permisos para partes especificas de la api
+            'administrador': Todos los permisos
+
+
+

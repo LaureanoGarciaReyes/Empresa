@@ -1,0 +1,502 @@
+openapi: 3.0.0 
+
+info:
+  version: 1.0.0 
+  title: DIPLOMAS - STRAPPS COMMUNITY 
+  description: API de la entidad Diplomas de STRAPPS COMMUNITY 
+
+  
+servers: 
+  - url: www.strappsconsulting.com
+    description: pagina de strapps  
+
+components: 
+#  securitySchemes:
+
+#    OAuth2:
+#      type: oauth2
+#      flows:
+#        authorizationCode:
+#          authorizationUrl: https://example.com/oauth/authorize
+#          tokenUrl: https://example.com/oauth/token
+#          scopes:
+#            usuario: Permisos para partes especificas de la api
+#            instructor: Permisos para partes especificas de la api
+#            administrador: Todos los permisos
+      
+  responses:
+    400Error:
+      description: Solicitud incorrecta
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: Descripcion del error
+                example: 'Peticion no valida, favor de validar su informacion'
+    401Error:
+      description: 'No autorizado'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: Descripcion del error
+                example: 'Es necesario autenticar para obtener la respuesta solicitada.'      
+
+    404Error:
+      description: 'Recurso no encontrado'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: 'Descripcion del error'
+                example: 'El servidor no pudo encontrar el contenido solicitado'
+
+    500Error:
+      description: 'Error interno de servidor'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: 'Descripcion del error'
+                example: 'Oppps, no se pudo procesar'
+
+                
+#security:
+  #- BasicAuth: []
+  #- ApiKeyAuth: []
+  #- OAuth2: []
+   #   - read
+    #  - write
+
+paths: 
+  #IVAN - ESTU-01 - (Inicio de sesion)                   
+  /estudiantes/grupo/{idGrupo}:  
+    get:
+      tags:
+        - Usuario estudiante
+#      security:
+#        - OAuth2: [administrador] 
+      description: Obtiene una lista de todos los alumnos de un grupo con la informacion de los diplomas
+      summary: 'Obtener los estudiantes de un grupo con sus diplomas'
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+        - name: idGrupo
+          in: path
+          required: true
+          description: id del grupo a consultar
+          example: SCRUM20ENE2022
+          schema:
+            type: string
+            
+      responses:
+        '200':
+          description: 'Ok'
+          content: 
+            application/json:
+              schema:
+                type: array
+                description: Lista de alumnos
+                items:
+                  type: object
+                  properties:
+                    idusuario:
+                      type: integer
+                      example: 1
+                      description: id del usuario estudiante
+                    nombre:
+                      type: string
+                      example: "Juan Perez Perez"
+                      description: nombre del usuario estudiante
+                    matricula: 
+                      type: integer
+                      example: 17579687126873
+                      description: matricula del usuario estudiante
+                    habilitado:
+                      type: boolean
+                      example: false
+                      description: Muestra si la descarga esta habilitada 
+                    diploma:
+                      type: boolean
+                      example: true
+                      description: Muestra si tiene cargado el diploma
+                    idDiploma: 
+                      example: 87122
+                      type: integer
+                      description: Id del diploma
+
+                      
+                      
+                      
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'  
+
+  /diploma/:
+    post:
+      tags:
+        - Diploma
+      description: Agrega un diploma a un curso de un alumno en especifico
+      summary: Agregar diploma a alumno
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+  
+      requestBody:
+        description: Información del diploma
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                idEstudiante:
+                  type: integer
+                  example: 13243
+                  description: Id del estudiante
+                idGrupo:
+                  type: integer
+                  example: 1246
+                  description: Id del grupo
+                nombreArchivo:
+                  type: string
+                  example: "D28972892.pdf"
+                diploma:
+                  type: string
+                  format: binary
+      
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  idDiploma:
+                    type: integer
+                    example: 12345
+                    description: id asignado al diploma
+                  mensaje: 
+                    type: string
+                    example: 'Se ha subido exitosamente el diploma'
+                    description: mensaje de respuesta
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'  
+
+  /diploma/{idDiploma}:
+    patch:
+      tags:
+        - Diploma
+      description: Edita un diploma en especifico
+      summary: Editar diploma a alumno
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+        - name: idDiploma
+          in: path
+          required: true
+          description: Id del diploma
+          schema:
+            type: integer
+  
+      requestBody:
+        description: Información del diploma
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                habilitado: 
+                  type: boolean
+                  example: "true"
+                  description: habilitar la descarga del diploma
+                diplomaPdf:
+                  type: string
+                  format: binary
+                  description: Diploma que reemplazara al antiguo
+      
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: 'Se ha editado exitosamente el diploma'
+                    description: mensaje de respuesta
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'  
+
+
+    get:
+      tags:
+        - Diploma
+      description: Obtine un diploma a un curso de un alumno en especifico
+      summary: Obtener diploma de un alumno a traves del id del diploma
+      parameters:
+        - name: idDiploma
+          in: path
+          required: true
+          description: Id del estudiante
+          schema:
+            type: string
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+
+
+      responses:
+        '200':
+          description: Diploma en formato pdf
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'           
+
+
+
+
+  #IVAN - DIPL-02 - (Descargar diploma diploma)    
+  /diploma/{idEstudiante}{idGrupo}:
+    get:
+      tags:
+        - Diploma
+      description: Obtine un diploma a un curso de un alumno en especifico
+      summary: Obtener diploma de un alumno
+      parameters:
+        - name: idEstudiante
+          in: path
+          required: true
+          description: Id del estudiante
+          schema:
+            type: string
+        - name: idGrupo
+          in: path
+          required: true
+          description: Id del Grupo
+          schema:
+            type: string
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+
+
+      responses:
+        '200':
+          description: Diploma en formato pdf
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error' 
+          
+          
+    #IVAN - TALL-02 - (Lista de talleres del estudiante)                   
+  /talleres/{idUsuario}:  
+    get:
+      tags:
+        - Taller
+      description: Obtiene una lista de los talleres de un estudiante
+      summary: 'Obtener los talleres de un estudiante'
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+        - name: idUsuario
+          in: path
+          required: true
+          description: Id del usuario
+          schema:
+            type: integer
+            example: 1
+            
+      responses:
+        '200':
+          description: 'Ok'
+          content: 
+            application/json:
+              schema:
+                type: array
+                description: Lista de talleres del estudiante
+                items:
+                  type: object
+                  properties:
+                    idTaler:
+                      type: integer
+                      example: 1
+                      description: id del grupo
+                    tema: 
+                          type: string
+                          example: "SCRUM"
+                          description: Tema del taller
+                    idGrupo: 
+                      type: integer
+                      example: 1
+                      description: id del grupo
+                      
+
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'  
+
+
+
+          #Nuevas Ivan
+
+
+  /Talleres/Grupos:  
+    get:
+      tags:
+        - Taller
+      description: Obtiene una lista de todos los talleres y grupos
+      summary: 'Obtener lista de todos los talleres y sus grupos'
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+            
+      responses:
+        '200':
+          description: 'Ok'
+          content: 
+            application/json:
+              schema:
+                type: array
+                description: Lista de Talleres
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                      description: id del taller
+                    clave: 
+                      type: string
+                      example: "SCR20MAY2022"
+                      description: clave del taller
+                    tema:
+                      type: string
+                      example: "SCRUM"
+                      description: "Tema del taller"
+                    grupos:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          idGrupo: 
+                            type: integer
+                            example: 1
+                            description: id del grupo
+                          claveGrupo:
+                            type: string
+                            example: "GROUPSCRMAY2022"
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error'  
+          

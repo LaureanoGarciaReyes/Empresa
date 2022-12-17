@@ -1,0 +1,624 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: STRAPPS COMMUNITY Entidad Grupo
+  description: APIS de la entidad Grupo para STRAPPS COMMUNITY
+servers: 
+  - url: www.strappsconsulting.com
+    description: pagina de strapps
+
+tags: 
+ 
+  - name: Grupo
+    description: Endpoint para las solicitudes del Grupo
+    
+
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    nuevoGrupo:
+      type: object            
+      properties:
+        id:
+          type: integer
+          example: 1
+          description: Id del grupo
+        idTaller:
+          type: integer
+          example: 10
+          description: Id del taller
+        idGrupo:
+          type: string
+          example: N24232121
+          description: Id del grupo (clave del grupo)
+        hora:
+          type: string
+          format: text
+          example: '2:00 a 5:00'
+          description: Hora en la que se impartirá la sesión 
+        plataforma:
+              type: string
+              example: Zoom
+              description: Plataforma en la que impartirá la sesión
+        idInstructor:
+              type: number
+              example: 1
+              description: Id del intructor           
+        sesiones:
+         type: array
+         description: Lista de sesiones del grupo 
+         items:
+           type: object
+           properties:
+            fecha:
+              type: string
+              example: 15/07/2022
+              description: Fecha de la sesión
+              format: date
+            idReunion: 
+              type: string
+              example: '867 8764 7 182'
+              description: Id de acceso a la plataforma
+            passcode: 
+              type: string
+              example: STRAPPS
+              description: Código de acceso a la plataforma
+             
+    respuestaNuevoGrupo:
+      type: object
+      properties:
+        mensaje:
+          type: string
+          example: Se guardo correctamente el grupo
+          description: Mensaje de respuesta de la petición exitosa 
+      
+    ActualizaGrupo:  
+       type: object   
+       properties:
+            id:
+              type: integer
+              example: 1
+              description: Id del grupo               
+            idTaller:
+              type: integer
+              example: 10
+              description: Id del taller
+            idGrupo:
+              type: string
+              example: N24232121
+              description: Id del grupo (clave del grupo)
+            hora:
+              type: string
+              format: text
+              example: '2:00 a 5:00'
+              description: Hora en la que se impartirá la sesión 
+            plataforma:
+                  type: string
+                  example: Zoom
+                  description: Plataforma en la que impartirá la sesión
+            idInstructor:
+                  type: number
+                  example: 1
+                  description: Id del intructor           
+            sesiones:
+             type: array
+             description: Lista de sesiones del grupo 
+             items:
+               type: object
+               properties:
+                fecha:
+                  type: string
+                  example: 15/07/2022
+                  description: Fecha de la sesión
+                  format: date
+                idReunion: 
+                  type: string
+                  example: '867 8764 7 182'
+                  description: Id de acceso a la plataforma
+                passcode: 
+                  type: string
+                  example: STRAPPS
+                  description: Código de acceso a la plataforma    
+    
+             
+    respuestaActualizaGrupo:
+     type: object
+     properties:
+        mensaje:
+          type: string
+          example: Se actualizo correctamente el taller
+          description: Mensaje de respuesta de la petición exitosa 
+          
+         
+    respuestaObtieneGrupos:      
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+          description: Id del grupo                   
+        idTaller:
+          type: integer
+          example: SMMAY01
+          description: Id del taller
+        idGrupo:
+          type: string
+          example: N24232121
+          description: Id del grupo (clave del grupo)
+        hora:
+          type: string
+          format: text
+          example: '2:00 a 5:00'
+          description: Hora en la que se impartirá la sesión 
+        plataforma:
+              type: string
+              example: Zoom
+              description: Plataforma en la que impartirá la sesión
+        idInstructor:
+              type: number
+              example: 1
+              description: Id del intructor           
+        sesiones:
+          type: array
+          description: Lista de sesiones del grupo 
+          items:
+            type: object
+            properties:
+              idsesion:
+                type: integer
+                example: 1
+                description: Id de la sesión
+              fecha:
+                type: string
+                example: 15/07/2022
+                description: Fecha de la sesión
+                format: date
+              idReunion: 
+                type: string
+                example: '867 8764 7 182'
+                description: Id de acceso a la plataforma
+              passcode: 
+                type: string
+                example: STRAPPS
+                description: Código de acceso a la plataforma   
+        
+    respuestaEliminaGrupo:
+      type: object
+      properties:
+        mensaje:
+          type: string
+          example: Se elimino correctamente el grupo
+          description: Mensaje de respuesta de la petición exitosa    
+    
+    
+          
+    Grupo:
+        description: Resumen de un grupo
+        type: object
+        properties:
+          idTaller:
+            type: integer
+            example: SMMAY01
+            description: Id del taller
+          idGrupo:
+            type: string
+            example: N24232121
+            description: Id del grupo (clave del grupo)
+          hora:
+            type: string
+            format: text
+            example: '2:00 a 5:00'
+            description: Hora en la que se impartirá la sesión 
+          plataforma:
+                type: string
+                example: Zoom
+                description: Plataforma en la que impartirá la sesión
+          idInstructor:
+                type: number
+                example: 1
+                description: Id del intructor           
+          sesiones:
+            type: array
+            description: Lista de sesiones del grupo 
+            items:
+              type: object
+              properties:
+                idsesion:
+                  type: integer
+                  example: 1
+                  description: Id de la sesión
+                fecha:
+                  type: string
+                  example: 15/07/2022
+                  description: Fecha de la sesión
+                  format: date
+                idReunion: 
+                  type: string
+                  example: '867 8764 7 182'
+                  description: Id de acceso a la plataforma
+                passcode: 
+                  type: string
+                  example: STRAPPS
+                  description: Código de acceso a la plataforma        
+        
+    sesion:
+      type: object
+      properties:
+        fecha:
+          type: string
+          format: date
+        hora:
+          type: string
+          format: text
+          example: '2:00 a 5:00'
+          description: Hora presentada
+        plataforma:
+          type: string
+          example: Zoom
+          description: sirve para saber en donde se hara la sesion
+        idReunion: 
+          type: string
+          example: '867 8764 7 182'
+          description: sirve para poder entrar a la reunion
+        passcode: 
+          type: string
+          example: STRAPPS
+          description: es el codigo de acceso para pode rentrar la sesion
+        idTrainer:
+          type: integer
+          example: Juan Z
+    Taller:
+      type: object
+      properties:
+        idTaller:
+          type: string
+          example: SMMAY02
+          description: id de taller existente
+        nombreTaller:
+          type: string
+          example: Scrum para principiantes
+        idGrupo:
+          type: string
+          example: ABC01
+          
+   
+  responses:
+    RespuestaListaGrupos:
+      description: Lista de grupos filtrados
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+               $ref: '#/components/schemas/Grupo'  
+       
+  requestBodies:
+    nuevoGrupo:
+      content:
+         application/json:
+          schema:
+            $ref: '#/components/schemas/nuevoGrupo'
+      description: "Nuevo Grupo"
+      required: true
+ 
+
+    ActualizaGrupo:
+      content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActualizaGrupo'
+      description: "Actualiza Grupo"
+      required: true        
+            
+              
+security:
+  - BasicAuth: []
+paths:
+    /grupo:
+      post:
+        tags:
+          - Grupo
+        description: Crea nuevo grupo a partir de los datos proporcionados REVISADO
+        summary: Crea nuevo grupo
+        operationId: crear
+        requestBody:
+           $ref: '#/components/requestBodies/nuevoGrupo'
+                
+                    
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/respuestaNuevoGrupo'  
+          '400':
+            description: No se han obtenido datos
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje: 
+                      type: string
+                      example: No ha llenado todos los campos
+                      description: Faltan campos por llenar
+          '401':
+            description: Error de la validacion de campos
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: No se han obtenido datos de validacion
+                      description: No se han obtenido datos
+          '500':
+            description: Error de autenticacion
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: No se ha podido procesar correctamente intentelo mas tarde
+                      description: Error No Se Ha Podido Procesar, Intente Más Tarde
+      put:
+        tags:
+          - Grupo
+        description: Actualiza el grupo en base a los datos dados REVISADO
+        summary: Actualiza un grupo
+        operationId: Actualiza
+        requestBody:
+           $ref: '#/components/requestBodies/ActualizaGrupo'
+                          
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/respuestaActualizaGrupo' 
+                  
+          '400':
+            description: Faltan campos por llenar
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: Faltan campos por llenar
+                      description: Faltan campos por llenar
+          '401':
+            description: Error de autenticacion
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: Error de autenticación
+                      description: Hubo un error en el proceso
+          '500':
+            description: Error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: Error no se ha podido procesar, intente más tarde
+                      description: Error en el proceso
+
+      get:
+        tags:
+          - Grupo
+        description: Obtiene una lista de todos los grupos existentes REVISADO
+        summary: 'Obtener todos los grupos existentes'
+        operationId: Obtiene
+        
+        responses:
+          '200':
+            description: 'Ok'
+            content: 
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/respuestaObtieneGrupos'  
+                  
+                  
+    /grupo/filtro/{idGrupo}:
+      get:
+        tags:
+          - Grupo
+        description: Obtiene los grupos coincidentes por el idGrupo REVISADO
+        summary: 'Filtra los grupos coinsidentes'
+        operationId: filtro
+        parameters:
+          - name: idGrupo
+            in: path
+            required: true
+            description: Id taller coincidente
+            schema:
+              type: string
+        
+        responses:
+          '200':
+            $ref: '#/components/responses/RespuestaListaGrupos' 
+                  
+    /grupo/{idGrupo}:
+      delete:
+        tags:
+          - Grupo
+        description: Elimina un grupo por el Id grupo REVISADO
+        summary: Elimina un grupo
+        operationId: Elimina
+        parameters:
+          - name: idGrupo
+            in: path
+            required: true
+            description: Id grupo
+            example: 1
+            schema:
+              type: integer
+              
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/respuestaEliminaGrupo'
+                  
+          '400':
+            description: Faltan campos por llenar
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: Faltan campos por llenar
+                      description: Faltan campos por llenar
+          '401':
+            description: Error de autenticacion
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: Error de autenticación
+                      description: Hubo un error en el proceso
+          '500':
+            description: Error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: Error no se ha podido procesar, intente más tarde
+                      description: Error en el proceso
+    /Instructor/{nombre}:
+      get:
+        tags:
+          - Grupo
+        description: Este metodo va a agarrar el nombre de los instructores
+        summary: Obtiene el nombre de los instructores
+        parameters:
+          - name: nombre
+            in: path
+            required: true
+            description: Nombre del instructor
+            schema:
+              type: string
+        #  ---- /Added lines  ----------------------------------------        
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                    type: object
+                    properties: 
+                      Nombre:
+                       type: string
+                       example: Antonio
+                       description: Nombre del instructor existente
+          '400':
+            description: Sintaxis invalida
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                     type: string
+          '401':
+            description: Error de autenticacion
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: Error de autenticación
+                      description: Hubo un error en el proceso
+          '500':
+            description: Error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: Error no se ha podido procesar, intente más tarde
+                      description: Error en el proceso
+    /Admin/{idGrupo}:
+      get:
+        tags:
+          - Grupo
+        description: Este metodo va a mandar a traer los idGrupo
+        summary: Este metodo va a mandar a traer los idGrupo
+        parameters:
+          - name: idGrupo
+            in: path
+            required: true
+            description: Los idGrupo
+            schema:
+              type: string
+        #  ---- /Added lines  ----------------------------------------        
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                      $ref: '#/components/schemas/Taller'
+          '400':
+            description: Sintaxis invalida
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                     type: string
+          '401':
+            description: Error de autenticacion
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: Error de autenticación
+                      description: Hubo un error en el proceso
+          '500':
+            description: Error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: Error no se ha podido procesar, intente mas tarde
+                      description: Error en el proceso

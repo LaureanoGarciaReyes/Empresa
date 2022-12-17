@@ -1,0 +1,281 @@
+openapi: 3.0.0 
+
+info:
+  version: 1.0.0 
+  title: SECURITY - STRAPPS COMMUNITY 
+  description: API deSeguridad de STRAPPS COMMUNITY 
+
+  
+servers: 
+  - url: www.strappsconsulting.com
+    description: pagina de strapps
+
+components: 
+  securitySchemes:
+
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            usuario: Permisos para partes especificas de la api
+            instructor: Permisos para partes especificas de la api
+            administrador: Todos los permisos
+      
+  responses:
+    400Error:
+      description: Solicitud incorrecta
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: Descripcion del error
+                example: 'Peticion no valida, favor de validar su informacion'
+    401Error:
+      description: 'No autorizado'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: Descripcion del error
+                example: 'Es necesario autenticar para obtener la respuesta solicitada.'      
+
+    404Error:
+      description: 'Recurso no encontrado'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: 'Descripcion del error'
+                example: 'El servidor no pudo encontrar el contenido solicitado'
+
+    500Error:
+      description: 'Error interno de servidor'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: 'Descripcion del error'
+                example: 'Oppps, no se pudo procesar'
+
+                
+security:
+  #- BasicAuth: []
+  #- ApiKeyAuth: []
+  - OAuth2: []
+   #   - read
+    #  - write
+
+paths:
+#IVAN - SECU-01 - (Inicio de sesion)
+  /Login/:
+    post:
+      tags:
+       - login
+      security:
+        - OAuth2: [] 
+      description: Obtiene el token de inicio de sesion de un usuario a traves de correo y contraseña conrrectos
+      summary: Obtener token de inicio de sesion 
+      parameters:
+        - name: email
+          in: header
+          required: true
+          description: Correo del usuario
+          schema:
+            type: string
+            example: user@domain.com
+        - name: password
+          in: header
+          required: true
+          description: Contraseña del usuario
+          schema:
+            type: string
+            format: password
+            example: itsPasww0rd
+
+      responses:
+        '200':
+          description: 'Ok'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensanje:
+                    type: string
+                    example: 'Inicio de sesion correcto!!'
+                    description: Mensaje del servidor
+                  token:
+                    type: string
+                    example: w4e56f7igu9876548765TR6DEXCUV
+                    description: token de inicio de sesion
+                  rol:
+                    type: string
+                    example: ROL_ADMINISTRADOR
+                    description: Rol de usuario
+                  nombre:
+                    type: string
+                    example: "Juan Perez"
+                    description: Nombre del usuario
+                  urlFoto:
+                   type: string
+                   example: "/foto/usuario.jpg"
+                   description: Foto del perfil del usuario
+                  
+        '400':
+          description: 'Campos incompletos'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: "Petición no válida, favor de validar su información."
+                    description: mensaje del servidor
+                  detalles:
+                    type: string
+                    example: "favor de llenar los campos"
+                    description: detalles del error 
+
+        '404':
+          description: 'Campos incompletos'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: "El usuario o la contraseña no son validos."
+                  detalles:
+                    type: string
+                    example: "La informacion no coincide"
+                    
+        '500':
+          description: 'Campos incompletos'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: "Problemas al procesar la solicitud favor de contactar a su administrador."
+                  detalles:
+                    type: string
+                    example: "Solicitud rechazada por el servidor"
+paths:
+#IVAN - SECU-01 - (Inicio de sesion)
+  /Login/:
+    post:
+      tags:
+       - Login
+      security:
+        - OAuth2: [] 
+      description: Obtiene el token de inicio de sesion de un usuario a traves de correo y contraseña conrrectos
+      summary: Obtener token de inicio de sesion 
+      parameters:
+        - name: email
+          in: header
+          required: true
+          description: Correo del usuario
+          schema:
+            type: string
+            example: user@domain.com
+        - name: password
+          in: header
+          required: true
+          description: Contraseña del usuario
+          schema:
+            type: string
+            format: password
+            example: itsPasww0rd
+
+      responses:
+        '200':
+          description: 'Ok'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensanje:
+                    type: string
+                    example: 'Inicio de sesion correcto!!'
+                    description: Mensaje del servidor
+                  token:
+                    type: string
+                    example: w4e56f7igu9876548765TR6DEXCUV
+                    description: token de inicio de sesion
+                  rol:
+                    type: string
+                    example: ROL_ADMINISTRADOR
+                    description: Rol de usuario
+                  nombre:
+                    type: string
+                    example: "Juan Perez"
+                    description: Nombre del usuario
+                  urlFoto:
+                   type: string
+                   example: "/foto/usuario.jpg"
+                   description: Foto del perfil del usuario
+                  
+        '400':
+          description: 'Campos incompletos'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: "Petición no válida, favor de validar su información."
+                    description: mensaje del servidor
+                  detalles:
+                    type: string
+                    example: "favor de llenar los campos"
+                    description: detalles del error 
+
+        '404':
+          description: 'Campos incompletos'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: "El usuario o la contraseña no son validos."
+                  detalles:
+                    type: string
+                    example: "La informacion no coincide"
+                    
+        '500':
+          description: 'Campos incompletos'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje: 
+                    type: string
+                    example: "Problemas al procesar la solicitud favor de contactar a su administrador."
+                  detalles:
+                    type: string
+                    example: "Solicitud rechazada por el servidor"
+                    

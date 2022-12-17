@@ -1,0 +1,261 @@
+openapi: 3.0.0 
+
+info:
+  version: 1.0.0 
+  title: Proyecto STRAPPS COMMUNITY Entidad de Aula Virtual
+  description: API de la Entida de Aula Virtual para STRAPPS COMMUNITY 
+
+  
+servers: 
+  - url: www.strappsconsulting.com
+    description: pagina de strapps
+
+tags: 
+  - name: login
+    description: Endpoint para las solicitudes de ingreso
+  - name: administrador
+    description: Endpoint para las solicitudes del administrador
+  - name: instructor
+    description: Endpoint para las solicitudes del instructor
+  
+    
+
+components: 
+  securitySchemes:
+
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            usuario: Permisos para partes especificas de la api
+            instructor: Permisos para partes especificas de la api
+            administrador: Todos los permisos
+      
+  responses:
+    400Error:
+      description: Solicitud incorrecta
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: Descripcion del error
+                example: 'Peticion no valida, favor de validar su informacion'
+    401Error:
+      description: 'No autorizado'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: Descripcion del error
+                example: 'Es necesario autenticar para obtener la respuesta solicitada.'      
+
+    404Error:
+      description: 'Recurso no encontrado'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: 'Descripcion del error'
+                example: 'El servidor no pudo encontrar el contenido solicitado'
+
+    500Error:
+      description: 'Error interno de servidor'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: 'Descripcion del error'
+                example: 'Oppps, no se pudo procesar'
+
+                
+security:
+  #- BasicAuth: []
+  #- ApiKeyAuth: []
+  - OAuth2: []
+   #   - read
+    #  - write
+
+paths: #puntos finales (rutas) y metodos (verbos) http /Punto final
+#cuando un punto final tenga corchetes significa que nesecita un parametro
+
+
+           
+ /usuario/sesion/{idTaller}:
+    get:
+      tags:
+      - Aula virtual
+      description: Obtiene las sesiones del usuario por idtaller  REVISADO
+      summary: Obtiene las sesiones del usuario 
+      parameters:
+
+        - name: token
+          in: header
+          required: true
+          description: Token de sesión
+          schema:
+            type: string
+        - name: idTaller
+          in: path
+          required: true
+          description: Id del Taller
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Lista de sesiones 
+                items:
+                  type: object
+                  properties:
+                    idSesión: 
+                      type: integer
+                      example: 1
+                      description: Id de la sesión
+                    sesion: 
+                      type: string
+                      example: Sesión 1
+                      description: Descripción de la sesión
+                                       
+        "400":
+          description: solicitud incorrecta
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Volver intentar
+        '401':
+          description: Error de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Error De Autenticación
+                    description: Hubo un error en el proceso
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Error No Se Ha Podido Procesar, Intente Más Tarde
+                    description: Error en el proceso
+
+ /usuario/sesion/{idSesion}:
+    get:
+      tags:
+      - Aula virtual
+      description: Obtiene la sesión del usuario por el Id de la sesión REVISADO 
+      summary:  Obtiene la sesión del usuario 
+      parameters:
+
+        - name: token
+          in: header
+          required: true
+          description: Token de Inicio
+          schema:
+            type: string
+        - name: idSesion
+          in: path
+          required: true
+          description: Id de la sesión
+          schema: 
+            type: integer
+           
+      
+        
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    inicio: 
+                      type: string
+                      example: 10-59 am 05/07/2022
+                      description: Fecha y hora de inicio 
+                    duracion: 
+                      type: string
+                      example: 2 horas
+                      description: Duración de la sesión
+                    plataforma:
+                      type: string
+                      example: Zoom
+                      description: Plataforma de la sesión
+                    idReunion: 
+                      type: string
+                      example: 5687654
+                      description: Id de acceso a la plataforma  
+                    passcode: 
+                      type: string
+                      example: 654388
+                      description: Clave de acesso 
+                    urlAcesso:
+                      type: string
+                      example: https://us04web.zoom.us/j/77590141632?pwd=zOrrJE1oZlrR8UhrDm3BDR8uJAdrJc.1
+                      description: Url de acesso a la sesión
+                                       
+        "400":
+          description: solicitud incorrecta
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Volver intentar
+        '401':
+          description: Error de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Error De Autenticación
+                    description: Hubo un error en el proceso
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Error No Se Ha Podido Procesar, Intente Más Tarde
+                    description: Error en el proceso
+  
+   
+

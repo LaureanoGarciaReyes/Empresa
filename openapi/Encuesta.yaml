@@ -1,0 +1,804 @@
+openapi: 3.0.0 
+
+info:
+  version: 1.0.0 
+  title: Proyecto STRAPPS COMMUNITY 
+  description: API de la pagina de STRAPPS COMMUNITY 
+
+  
+servers: 
+  - url: www.strappsconsulting.com
+    description: pagina de strapps
+
+tags: 
+  - name: administrador
+    description: Endpoint para las solicitudes del administrador
+  - name: usuario
+    description: Endpoint para las solicitudes del usuario
+    
+
+components: 
+  securitySchemes:
+
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            usuario: Permisos para partes especificas de la api
+            instructor: Permisos para partes especificas de la api
+            administrador: Todos los permisos
+      
+  responses:
+    400Error:
+      description: Solicitud incorrecta
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: Descripcion del error
+                example: 'Peticion no valida, favor de validar su informacion'
+    401Error:
+      description: 'No autorizado'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: Descripcion del error
+                example: 'Es necesario autenticar para obtener la respuesta solicitada.'      
+
+    404Error:
+      description: 'Recurso no encontrado'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: 'Descripcion del error'
+                example: 'El servidor no pudo encontrar el contenido solicitado'
+
+    500Error:
+      description: 'Error interno de servidor'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:   
+              mensaje:
+                type: string
+                description: 'Descripcion del error'
+                example: 'Oppps, no se pudo procesar'
+
+
+
+security:
+  #- BasicAuth: []
+  #- ApiKeyAuth: []
+  - OAuth2: []
+   #   - read
+    #  - write
+paths:
+    /encuesta:
+      post:
+        tags:
+          - administrador
+        description: Crea una encuesta a partir de los datos proporcionados REVISADO
+        summary: Crea una encuesta      
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                required: 
+                  - Body
+                properties:
+                  título:
+                        type: string
+                        example: Encuesta de Scrum
+                        description: Título de la encuesta
+                  descripcion:
+                        type: string
+                        example: Por favor responde la encuesta de satisfacción
+                        description: Descripción de la encuesta
+                                  
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    idEncuesta:
+                      type: integer
+                      example: 1
+                      description: Id de encuesta
+                    mensaje:
+                      type: string
+                      example: Se guardo correctamente la encuesta
+                      description: Mensaje de respuesta de la petición exitosa
+          '400':
+            description: No se han obtenido datos
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje: 
+                      type: string
+                      example: No ha llenado todos los campos
+                      description: Faltan campos por llenar
+          '401':
+            description: Error de la validacion de campos
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: No se han obtenido datos de validacion
+                      description: No se han obtenido datos
+          '500':
+            description: Error de autenticacion
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: No se ha podido procesar correctamente intentelo mas tarde
+                      description: Error No Se Ha Podido Procesar, Intente Más Tarde
+      put:
+        tags:
+          - administrador
+        description: Edita una encuesta a partir de los datos proporcionados REVISADO
+        summary: Editar una encuesta      
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                required: 
+                  - Body
+                properties:
+                  idEncuesta: 
+                        type: integer
+                        example: 1
+                        description: Id de la encuesta
+                  título:
+                        type: string
+                        example: Encuesta de Scrum
+                        description: Título de la encuesta
+                  descripcion:
+                        type: string
+                        example: Por favor responde la encuesta de satisfacción
+                        description: Descripción de la encuesta
+                 
+                      
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    idEncuesta:
+                      type: integer
+                      example: 1
+                      description: Id de encuesta
+                    mensaje:
+                      type: string
+                      example: Se guardo correctamente la encuesta
+                      description: Mensaje de respuesta de la petición exitosa
+          '400':
+            description: No se han obtenido datos
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje: 
+                      type: string
+                      example: No ha llenado todos los campos
+                      description: Faltan campos por llenar
+          '401':
+            description: Error de la validacion de campos
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: No se han obtenido datos de validacion
+                      description: No se han obtenido datos
+          '500':
+            description: Error de autenticacion
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: No se ha podido procesar correctamente intentelo mas tarde
+                      description: Error No Se Ha Podido Procesar, Intente Más Tarde
+
+    /encuesta/pregunta:
+      post:
+        tags:
+          - administrador
+        description: Crea una pregunta a partir de los datos proporcionados, los tipos de preguntas disponibles son abierta, opcion-simple, opcion-multiple y escala-evaluacion REVISADO
+        summary: Crea una pregunta      
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                required: 
+                  - Body
+                properties:
+                  tipoPregunta:
+                        type: string
+                        example: "escala-evaluacion"
+                        description: Tipo de la pregunta
+                  pregunta:
+                        type: string
+                        example: "Instructor<br> 1= muy mala 5= excelente"
+                        description: Descripción de la pregunta
+                  opciones:
+                        type: array
+                        description: Lista de opciones de la pregunta
+                        items:
+                          type: object
+                          properties:
+                            idOpcion: 
+                              type: integer 
+                              example: 1
+                              description: Id de la opción
+                            opcion:
+                              type: string
+                              example: inicio su exposición   
+                              description: Opción de la pregunta
+                            mascara: 
+                              type: string
+                              example: "far fa-smile"
+                              description: Mascara de la opción 
+                  infoAdicional:
+                          type: object
+                          properties:
+                            escalaInicial: 
+                              type: integer 
+                              example: 1
+                              description: Escala inicial de la pregunta
+                            escalaFinal:
+                              type: integer
+                              example: 5   
+                              description: Escala final de la pregunta         
+                               
+                  
+                 
+                      
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    idPregunta:
+                      type: integer
+                      example: 1
+                      description: Id de pregunta
+                    mensaje:
+                      type: string
+                      example: Se guardo correctamente la pregunta
+                      description: Mensaje de respuesta de la petición exitosa
+          '400':
+            description: No se han obtenido datos
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje: 
+                      type: string
+                      example: No ha llenado todos los campos
+                      description: Faltan campos por llenar
+          '401':
+            description: Error de la validacion de campos
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: No se han obtenido datos de validacion
+                      description: No se han obtenido datos
+          '500':
+            description: Error de autenticacion
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: No se ha podido procesar correctamente intentelo mas tarde
+                      description: Error No Se Ha Podido Procesar, Intente Más Tarde
+      put:
+        tags:
+          - administrador
+        description: Edita una pregunta a partir de los datos proporcionados, los tipos de preguntas disponibles son abierta, opcion-simple, opcion-multiple y escala-evaluacion REVISADO
+        summary: Edita la pregunta
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                required: 
+                  - Body
+                properties:
+                   idPregunta:
+                      type: integer
+                      example: 1
+                      description: Id de pregunta
+                   tipoPregunta:
+                        type: string
+                        example: "escala-evaluacion"
+                        description: Tipo de la pregunta
+                   pregunta:
+                        type: string
+                        example: "Instructor<br> 1= muy mala 5= excelente"
+                        description: Descripción de la pregunta
+                   opciones:
+                        type: array
+                        description: Lista de opciones de la pregunta
+                        items:
+                          type: object
+                          properties:
+                            idOpcion: 
+                              type: integer 
+                              example: 1
+                              description: Id de opción
+                            opcion:
+                              type: string
+                              example: inicio su exposición   
+                              description: Opción de la pregunta
+                            mascara: 
+                              type: string
+                              example: "far fa-smile"
+                              description: Mascara de la opción   
+                   infoAdicional:
+                          type: object
+                          properties:
+                            escalaInicial: 
+                              type: integer 
+                              example: 1
+                              description: Escala inicial de la pregunta
+                            escalaFinal:
+                              type: integer
+                              example: 5   
+                              description: Escala final de la pregunta             
+                                           
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    idPregunta:
+                      type: integer
+                      example: 1
+                      description: Id de pregunta
+                    mensaje:
+                      type: string
+                      example: Se actualizó correctamente la pregunta
+                      description: Mensaje de respuesta de la petición exitosa
+          '400':
+            description: Faltan campos por llenar
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: Faltan campos por llenar
+                      description: Faltan campos por llenar
+          '401':
+            description: Error de autenticacion
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: Error de autenticación
+                      description: Hubo un error en el proceso
+          '500':
+            description: Error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: Error no se ha podido procesar, intente más tarde
+                      description: Error en el proceso
+    
+
+
+    ##Estudiante##
+    
+    /encuesta/pregunta/{idPregunta}:                
+      delete:
+        tags:
+          - administrador
+        description: Elimina la pregunta 
+        summary: Elimina la pregunta
+        parameters:
+          - name: token
+            in: header
+            required: true
+            description: Token del inicio de sesión
+            schema:
+              type: string
+          - name: idPregunta
+            in: path
+            required: true
+            description: Id de la pregunta
+            schema:
+              type: integer
+                                           
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    idPregunta:
+                      type: integer
+                      example: 1
+                      description: Id de pregunta
+                    mensaje:
+                      type: string
+                      example: Se elimino correctamente la pregunta
+                      description: Mensaje de respuesta de la petición exitosa
+          '400':
+            description: Faltan campos por llenar
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: Faltan campos por llenar
+                      description: Faltan campos por llenar
+          '401':
+            description: Error de autenticacion
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: Error de autenticación
+                      description: Hubo un error en el proceso
+          '500':
+            description: Error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    mensaje:
+                      type: string
+                      example: Error no se ha podido procesar, intente más tarde
+                      description: Error en el proceso
+    
+    /encuesta/{idTaller}:
+      get:
+        tags:
+          - administrador
+        description: Obtiene la encuesta por el idTaller REVISADO
+        summary: Obtiene la encuesta 
+        parameters:
+        - name: idTaller
+          in: path
+          required: true
+          description: Id del taller
+          schema:
+            type: integer
+  
+        responses:
+          '200':
+            description: 'Ok'
+            content: 
+              application/json:
+                schema:
+                    type: object
+                    properties:
+                      idEncuesta: 
+                        type: integer
+                        example: 1
+                        description: 'Id de la encuesta'
+                      titulo:
+                        type: string
+                        example: 'Encuesta de Scrum'
+                        description: Título de la encuesta
+                      descripcion:
+                        type: string
+                        example: Por favor responde la encuesta de satisfacción
+                        description: Descripción de la encuesta
+                      preguntas:
+                        type: array
+                        description: Lista de preguntas
+                        items:
+                          type: object
+                          properties:
+                            idPregunta:
+                              type: integer
+                              example: 1
+                              description: Id de pregunta
+                            tipoPregunta:
+                                  type: string
+                                  example: "escala-evaluacion"
+                                  description: Tipo de la pregunta
+                            pregunta:
+                                  type: string
+                                  example: "Instructor<br> 1= muy mala 5= excelente"
+                                  description: Descripción de la pregunta
+                            opciones:
+                                  type: array
+                                  description: Lista de opciones de la pregunta
+                                  items:
+                                    type: object
+                                    properties:
+                                      idOpcion: 
+                                        type: integer 
+                                        example: 1
+                                        description: Id de opción
+                                      opcion:
+                                        type: string
+                                        example: inicio su exposición   
+                                        description: Opción de la pregunta
+                                      mascara: 
+                                        type: string
+                                        example: "far fa-smile"
+                                        description: Mascara de la opción   
+                            infoAdicional:
+                                    type: object
+                                    properties:
+                                      escalaInicial: 
+                                        type: integer 
+                                        example: 1
+                                        description: Escala inicial de la pregunta
+                                      escalaFinal:
+                                        type: integer
+                                        example: 5   
+                                        description: Escala final de la pregunta
+    
+    
+    
+    /usuario/encuesta/{idTaller}:
+     get:
+      tags:
+        - Encuesta Estudiante
+      security:
+        - OAuth2: [Estudiante]
+      description: Obtener encuesta de sastifacción por idTaller REVISADO
+      summary: Obtener encuesta de sastifacción 
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesion
+          schema:
+            type: string
+        - name: idTaller
+          in: path
+          required: true
+          description: Id del taller
+          schema:
+            type: integer
+
+      responses:
+          '200':
+            description: 'Ok'
+            content: 
+              application/json:
+                schema:
+                    type: object
+                    properties:
+                      idEncuesta: 
+                        type: integer
+                        example: 1
+                        description: 'Id de la encuesta'
+                      titulo:
+                        type: string
+                        example: 'Encuesta de Scrum'
+                        description: Título de la encuesta
+                      descripcion:
+                        type: string
+                        example: Por favor responde la encuesta de satisfacción
+                        description: Descripción de la encuesta
+                      preguntas:
+                        type: array
+                        description: Lista de preguntas
+                        items:
+                          type: object
+                          properties:
+                            idPregunta:
+                              type: integer
+                              example: 1
+                              description: Id de pregunta
+                            tipoPregunta:
+                                  type: string
+                                  example: "escala-evaluacion"
+                                  description: Tipo de la pregunta
+                            pregunta:
+                                  type: string
+                                  example: "Instructor<br> 1= muy mala 5= excelente"
+                                  description: Descripción de la pregunta
+                            opciones:
+                                  type: array
+                                  description: Lista de opciones de la pregunta
+                                  items:
+                                    type: object
+                                    properties:
+                                      idOpcion: 
+                                        type: integer 
+                                        example: 1
+                                        description: Id de opción
+                                      opcion:
+                                        type: string
+                                        example: inicio su exposición   
+                                        description: Opción de la pregunta
+                                      mascara: 
+                                        type: string
+                                        example: "far fa-smile"
+                                        description: Mascara de la opción   
+                            infoAdicional:
+                                    type: object
+                                    properties:
+                                      escalaInicial: 
+                                        type: integer 
+                                        example: 1
+                                        description: Escala inicial de la pregunta
+                                      escalaFinal:
+                                        type: integer
+                                        example: 5   
+                                        description: Escala final de la pregunta
+                          
+                        
+                      
+          '400':
+           $ref: '#/components/responses/400Error'
+        
+          '401':
+           $ref: '#/components/responses/401Error'
+                      
+          '404':
+           $ref: '#/components/responses/404Error'
+
+          '500':
+           $ref: '#/components/responses/500Error' 
+    
+    /usuario/encuesta/respuestas:
+     post:
+      tags:
+        - Encuesta Estudiante
+      security:
+        - OAuth2: [Estudiante]
+      description: Registra las respuestas de la encuesta
+      summary: Registra las respuestas de la encuesta
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Token del inicio de sesión
+          schema:
+            type: string
+        
+      requestBody:
+        description: respuestas
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idTaller:
+                  type: integer
+                  example: 1
+                  description: Id del Taller
+                preguntas:
+                  type: array
+                  description: Preguntas
+                  items:
+                    type: object
+                    properties:
+                      idPregunta:
+                        type: integer
+                        example: 1
+                        description: Id de la Pregunta
+                      tipoPregunta:
+                        type: string
+                        example: "abierta"
+                        description: Tipo de la pregunta
+                      respuesta:
+                          type: object
+                          properties:      
+                            respuesta_Abierta: 
+                             type: string
+                             example: "laug0541@gmail.com"
+                             description: Descripción de la Respuesta Abierta
+                            respuesta_IdOpcionsimple: 
+                             type: string
+                             example: "1"
+                             description: Descripción de la Respuesta Simple 
+                            respuesta_IdOpcionmultiples: 
+                             type: array
+                             items:
+                              type: string
+                              example: "1 , 3"
+                              description: Descripción de la Respuesta de Opcion Multiple  
+                            respuesta_EscalaDeEvaluacion: 
+                             type: array
+                             items:
+                               type: object
+                               properties:
+                                id:
+                                 type: integer
+                                 example: "1,4"
+                                 description: Descripción de la Respuesta de Escala de Evaluación 
+                
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                 mensaje: 
+                  type: string
+                  example: 'Se guardo corectamente sus respuestas'
+                  description: mensaje de respuesta
+        
+        '401':
+          $ref: '#/components/responses/401Error'
+                      
+        '404':
+          $ref: '#/components/responses/404Error'
+
+        '500':
+          $ref: '#/components/responses/500Error' 
